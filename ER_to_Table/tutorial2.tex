@@ -1,0 +1,32 @@
+\documentclass{article}
+\title{%
+	Tutorial 2: Logical Database Design \\
+	\large Case Study: Mapping an Entity-Relationship Diagram to the Relational Model}
+\author{
+	Jin, Ziyang\\
+	\texttt{\# 34893140}
+	\and
+	Kim, Joon Hyung\\
+	\texttt{\# 35183128}
+}
+\date{January 2018}
+\begin{document}
+	\maketitle
+	Here are the tables determined so far:
+	\begin{enumerate}
+		\item Customer (\underline{dlicense}, phone, name, addr) \\ 			Primary key: dlicense \\ 			Alternate key: (phone, name)\\ 			Note: After discussions with the company, we realized that they also identify each customer by their 				phone number and name (taken together). So, we state that as an alternate key for this table. An 				alternate key is any candidate key other than the primary key.
+		\item ClubMember (\underline{dlicense}, points, fees)\\			Primary key: dlicense \\			Foreign key: dlicense references Customer
+		\item Branch (\underline{location}, \underline{city}) \\			Primary key: location, city
+		\item VehicleType (\underline{vtname}, features, wrate, drate, hrate, krate, wirate, dirate, hirate) \\			Primary key: vtname
+		\item Vehicle (\underline{vlicense}, initprice, odometer, year, status, forRentFlag, \\			Primary key: vlicense \\
+			Comments: We decided to use a forRentFlag to tell if a vehicle is available for renting. Do we					need any other table for the vehicles? \\			Foreign key(s): \\			Add the rest of the attributes. List the foreign key(s).
+		\item Reservation (\underline{confNo}, fromDate, fromTime, toDate, toTime, \\			Primary key: confNo \\			Foreign key(s): \\			Add the rest of the attributes. List the foreign key(s).
+		\item RentalAgreement (rentId, cardNo, expDate, odometer, rentedfromDate, rentedfromTime,			rentedtoDate, rentedtoTime, \\			Primary key: rentId \\			Foreign key(s): \\			Comments: Note that Return is included in RentalAgreement as each rental agreement			eventually will have a single return. There is no point in making Return a separate table. \\			Add the rest of the attributes. List the foreign key(s).
+		\item TimePeriod (\underline{fromDate, fromTime, toDate, toTime}) \\			Primary key : (fromDate, fromTime, toDate, toTime)
+	\end{enumerate}
+	Lastly, list any additional tables, their primary key(s), and their foreign key(s):
+	\begin{enumerate}
+		\item asdf
+	\end{enumerate}
+	
+\end{document}
