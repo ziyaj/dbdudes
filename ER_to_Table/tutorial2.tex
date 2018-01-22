@@ -18,10 +18,14 @@
 		\item ClubMember (\underline{dlicense}, points, fees)\\			Primary key: dlicense \\			Foreign key: dlicense references Customer
 		\item Branch (\underline{location}, \underline{city}) \\			Primary key: location, city
 		\item VehicleType (\underline{vtname}, features, wrate, drate, hrate, krate, wirate, dirate, hirate) \\			Primary key: vtname
-		\item Vehicle (\underline{vlicense}, initprice, odometer, year, status, forRentFlag, \\			Primary key: vlicense \\
+		
+		\item Vehicle (\underline{vlicense}, initprice, odometer, make, model, year, color, status, forRentFlag) \\			Primary key: vlicense \\
 			Comments: We decided to use a forRentFlag to tell if a vehicle is available for renting. Do we					need any other table for the vehicles? \\			Foreign key(s): \\			Add the rest of the attributes. List the foreign key(s).
-		\item Reservation (\underline{confNo}, fromDate, fromTime, toDate, toTime, \\			Primary key: confNo \\			Foreign key(s): \\			Add the rest of the attributes. List the foreign key(s).
-		\item RentalAgreement (rentId, cardNo, expDate, odometer, rentedfromDate, rentedfromTime,			rentedtoDate, rentedtoTime, \\			Primary key: rentId \\			Foreign key(s): \\			Comments: Note that Return is included in RentalAgreement as each rental agreement			eventually will have a single return. There is no point in making Return a separate table. \\			Add the rest of the attributes. List the foreign key(s).
+			
+		\item Reservation (\underline{confNo}, fromDate, fromTime, toDate, toTime, dlicense, vtname, location, city)\\			Primary key: confNo \\			Foreign key(s): dlicense references Cusomter, vtname references VehicleType, (location, city) references Branch
+		
+		\item RentalAgreement (\underline{rentId}, cardNo, expDate, odometer, rentedfromDate, rentedfromTime,			rentedtoDate, rentedtoTime, vlicense, dlicense, confNo, returnCost, returnTime, returnDate, returnFulltank, returnOdometer) \\			Primary key: rentId \\			Foreign key(s): vlicense references Vehicle, dlicense references Customer, (rentedfromDate, rentedfromTime, rentedtoDate, rentedtoTime) references TimePeriod, confNo references Reservation
+				
 		\item TimePeriod (\underline{fromDate, fromTime, toDate, toTime}) \\			Primary key : (fromDate, fromTime, toDate, toTime)
 	\end{enumerate}
 	Lastly, list any additional tables, their primary key(s), and their foreign key(s):
