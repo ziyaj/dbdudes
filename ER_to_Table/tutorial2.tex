@@ -4,10 +4,12 @@
 	\large Case Study: Mapping an Entity-Relationship Diagram to the Relational Model}
 \author{
 	Jin, Ziyang\\
-	\texttt{\# 34893140}
+	\texttt{\# 34893140}\\
+	\texttt{f4a0b}
 	\and
 	Kim, Joon Hyung\\
-	\texttt{\# 35183128}
+	\texttt{\# 35183128}\\
+	\texttt{l1m8}
 }
 \date{January 2018}
 \begin{document}
@@ -32,7 +34,7 @@
 			Primary key: vlicense \\
 			Foreign key(s): (location, city) references Branch, vtname references VehicleType
 
-		\item Reservation (\underline{confNo}, fromDate, fromTime, toDate, toTime, dlicense, vtname, location, city)\\
+		\item Reservation (\underline{confNo}, \textbf{fromDate, fromTime, toDate, toTime,} dlicense, vtname, location, city)\\
 			Primary key: confNo \\
 			Foreign key(s): dlicense references Cusomter, vtname references VehicleType, (location, city) references Branch, (fromDate, fromTime, toDate, toTime) references TimePeriod
 
@@ -48,7 +50,8 @@
 	Lastly, list any additional tables, their primary key(s), and their foreign key(s):
 	\begin{enumerate}
 		\item VehicleForSale (\underline{vlicense}, saleDate, price, agent) \\
-			Primary Key: vlicense
+			Primary Key: vlicense \\
+			Foreign key: vlicense references Vehicle
 	\end{enumerate}
 	
 \end{document}
