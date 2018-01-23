@@ -34,7 +34,7 @@
 
 		\item Reservation (\underline{confNo}, fromDate, fromTime, toDate, toTime, dlicense, vtname, location, city)\\
 			Primary key: confNo \\
-			Foreign key(s): dlicense references Cusomter, vtname references VehicleType, (location, city) references Branch
+			Foreign key(s): dlicense references Cusomter, vtname references VehicleType, (location, city) references Branch, (fromDate, fromTime, toDate, toTime) references TimePeriod
 
 		\item RentalAgreement (\underline{rentId}, cardNo, expDate, odometer, rentedfromDate, rentedfromTime,
 			rentedtoDate, rentedtoTime, vlicense, dlicense, confNo, returnCost, returnTime, returnDate, returnFulltank, returnOdometer) \\
