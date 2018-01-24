@@ -16,11 +16,11 @@
 	\maketitle
 	Here are the tables determined so far:
 	\begin{enumerate}
-		\item Customer (\textbf{\underline{dlicense}}, phone, name, addr) \\ 
+		\item Customer (\underline{dlicense}, phone, name, addr) \\ 
 			Primary key: dlicense \\ 
 			Alternate key: (phone, name)
 
-		\item ClubMember (\underline{dlicense}, points, fees)\\
+		\item ClubMember (\textbf{\underline{dlicense}}, points, fees)\\
 			Primary key: dlicense \\
 			Foreign key: dlicense references Customer
 
