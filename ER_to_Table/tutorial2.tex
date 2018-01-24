@@ -30,18 +30,17 @@
 		\item VehicleType (\underline{vtname}, features, wrate, drate, hrate, krate, wirate, dirate, hirate) \\
 			Primary key: vtname
 
-		\item Vehicle (\underline{vlicense}, initprice, make, model, year, color, odometer, status, forRentFlag, location, city, vtname) \\
+		\item Vehicle (\underline{vlicense}, initprice, make, model, year, color, odometer, status, forRentFlag, \textbf{location, city, vtname}) \\
 			Primary key: vlicense \\
 			Foreign key(s): (location, city) references Branch, vtname references VehicleType
 
-		\item Reservation (\underline{confNo}, \textbf{fromDate, fromTime, toDate, toTime,} dlicense, vtname, location, city)\\
+		\item Reservation (\underline{confNo}, \textbf{fromDate, fromTime, toDate, toTime, dlicense, vtname, location, city})\\
 			Primary key: confNo \\
 			Foreign key(s): dlicense references Cusomter, vtname references VehicleType, (location, city) references Branch, (fromDate, fromTime, toDate, toTime) references TimePeriod
 
-		\item RentalAgreement (\underline{rentId}, cardNo, expDate, odometer, rentedfromDate, rentedfromTime,
-			rentedtoDate, rentedtoTime, vlicense, dlicense, confNo, returnCost, returnTime, returnDate, returnFulltank, returnOdometer) \\
+		\item RentalAgreement (\underline{rentId}, cardNo, expDate, odometer, \textbf{rentedfromDate, rentedfromTime, rentedtoDate, rentedtoTime, vlicense, dlicense, confNo}, returnCost, returnTime, returnDate, returnFulltank, returnOdometer) \\
 			Primary key: rentId \\
-			Foreign key(s): vlicense references VehicleForRent, dlicense references Customer, (rentedfromDate, rentedfromTime, rentedtoDate, rentedtoTime) references TimePeriod, confNo references Reservation
+			Foreign key(s): vlicense references Vehicle, dlicense references Customer, (rentedfromDate, rentedfromTime, rentedtoDate, rentedtoTime) references TimePeriod, confNo references Reservation
 
 		\item TimePeriod (\underline{fromDate, fromTime, toDate, toTime}) \\
 			Primary key : (fromDate, fromTime, toDate, toTime)
