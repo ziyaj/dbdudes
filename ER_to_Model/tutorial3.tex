@@ -1,0 +1,53 @@
+\documentclass{article}
+\title{%
+	Tutorial 3: Logical Database Design \\
+	\large Mapping ER Diagrams to the Relational Model}
+\author{
+	Jin, Ziyang\\
+	\texttt{\# 34893140}\\
+	\texttt{f4a0b}
+	\and
+	Kim, Joon Hyung\\
+	\texttt{\# 35183128}\\
+	\texttt{l1m8}
+}
+\date{January 2018}
+
+\begin{document}
+	\maketitle
+	\begin{enumerate}
+		\item \underline{1:1} \\
+			X(\underline{K1}, A1, \textbf{K2}) \\
+			Y(\underline{K2}, A2) \\
+		\item \underline{1:M} \\
+			X(\underline{K1}, A1) \\
+			Y(\underline{K2}, A2, \textbf{K1}) \\
+		\item \underline{M:N(Binary Relationship)} \\
+			X(\underline{K1}, A1) \\
+			Y(\underline{K2}, A2) \\
+			R(\textbf{\underline{K1, K2,}} A3) \\
+		\item \underline{M:N(Ternary Relationship)} \\
+			X(\underline{K1}, A1) \\
+			Y(\underline{K2}, A2) \\
+			Z(\underline{K3}, A3) \\
+			R(\textbf{\underline{K1, K2, K3,}} A4) \\
+		\item \underline{1:M Strong Entity with Total Participation}\\
+			X(\underline{K1}, A1) \\
+			Y(\underline{K2}, A2, \textbf{K1}) \\
+		\item \underline{1:M Weak Entity with Total Participation (assume that A2 is the partial key)} \\
+			X(\underline{K1}, A1) \\
+			Y(\underline{\textbf{K1}, A2}, A3) \\
+		\item \underline{1:1 and 1:M Unary Relationship} \\
+			X(\underline{K1}, A1, \textbf{RefK1}) \\
+		\item \underline{M:N Unary Relationship} \\
+		\item \underline{ISA 1}\\
+			X(\underline{K1}, A1) \\
+			Y(\textbf{\underline{K1}}, A2, A3) \\
+			Z(\textbf{\underline{K1}}, A4, A5) \\
+		\item \underline{ISA 2 (the “d” means disjoint)} \\
+			X(\underline{K1}, A1) \\
+			Y(\textbf{\underline{K1}}, A2, A3) \\
+			Z(\textbf{\underline{K1}}, A4, A5) \\
+	\end{enumerate}
+	
+\end{document}
