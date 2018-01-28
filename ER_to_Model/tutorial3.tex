@@ -17,37 +17,86 @@
 	\maketitle
 	\begin{enumerate}
 		\item \underline{1:1} \\
+			\\
 			X(\underline{K1}, A1, \textbf{K2}) \\
+			K2 REFERENCES Y\\
+			\\
 			Y(\underline{K2}, A2) \\
+			
 		\item \underline{1:M} \\
+			\\
 			X(\underline{K1}, A1) \\
+			\\
 			Y(\underline{K2}, A2, \textbf{K1}) \\
+			K1 REFERENCES X \\
+			
 		\item \underline{M:N(Binary Relationship)} \\
+			\\
 			X(\underline{K1}, A1) \\
+			\\
 			Y(\underline{K2}, A2) \\
+			\\
 			R(\textbf{\underline{K1, K2,}} A3) \\
+			K1 REFERENCES X,\\
+			K2 REFERENCES Y \\
+			
 		\item \underline{M:N(Ternary Relationship)} \\
+			\\
 			X(\underline{K1}, A1) \\
+			\\
 			Y(\underline{K2}, A2) \\
+			\\
 			Z(\underline{K3}, A3) \\
+			\\
 			R(\textbf{\underline{K1, K2, K3,}} A4) \\
+			K1 REFERENCES X,\\
+			K2 REFERENCES Y,\\
+			K3 REFERENCES Z \\
+			
 		\item \underline{1:M Strong Entity with Total Participation}\\
+			\\
 			X(\underline{K1}, A1) \\
+			\\
 			Y(\underline{K2}, A2, \textbf{K1}) \\
+			K1 REFERENCES X, K1 cannot be null\\
+			
 		\item \underline{1:M Weak Entity with Total Participation (assume that A2 is the partial key)} \\
+			\\
 			X(\underline{K1}, A1) \\
-			Y(\underline{\textbf{K1}, A2}, A3) \\
+			\\
+			Y(\underline{A2, \textbf{K1},} A3) \\
+			K1 REFERENCES X, ON DELETE CASCADE \\
+			
 		\item \underline{1:1 and 1:M Unary Relationship} \\
+			\\
 			X(\underline{K1}, A1, \textbf{RefK1}) \\
+			RefK1 REFERENCES X(K1)\\
+			
 		\item \underline{M:N Unary Relationship} \\
+			\\
+			X(\underline{K1}, A1) \\
+			\\
+			R(\textbf{\underline{Role1K1, Role2K1}}) \\
+			Role1K1 REFERENCES X(K1),\\
+			Role2K1 REFERENCES X(K1)\\
+			
 		\item \underline{ISA 1}\\
+			Assumption: not disjoint and not covering\\
+			\\
 			X(\underline{K1}, A1) \\
-			Y(\textbf{\underline{K1}}, A2, A3) \\
-			Z(\textbf{\underline{K1}}, A4, A5) \\
-		\item \underline{ISA 2 (the ‚Äúd‚Äù means disjoint)} \\
-			X(\underline{K1}, A1) \\
-			Y(\textbf{\underline{K1}}, A2, A3) \\
-			Z(\textbf{\underline{K1}}, A4, A5) \\
+			\\
+			Y(\textbf{\underline{K1}}, A2, A3)\\
+			K1 REFERENCES X \\
+			\\
+			Z(\textbf{\underline{K1}}, A4, A5)\\
+			K1 REFERENCES X \\
+			
+		\item \underline{ISA 2 (the "d"Äù means disjoint)} \\
+			Assumption: disjoint and covering \\
+			\\
+			Y(\underline{K1}, A1, A2, A3) \\
+			\\
+			Z(\underline{K1}, A1, A4, A5) \\
 	\end{enumerate}
 	
 \end{document}
