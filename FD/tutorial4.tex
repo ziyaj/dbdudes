@@ -35,19 +35,21 @@
 \noindent (b) Consider the decomposition of the relation \texttt{StudentInfo} into: \texttt{SI1(S, N, M, A, C) and SI2(C, T, I, L, G)}. Is this a lossy or lossless-join? Justify your answer.\\
 \\
 \textbf{Answer:}\\
-It is a lossy join.\\
+It is a lossy decomposition.\\
 The shared attribute between \texttt{SI1} and \texttt{SI2} is \texttt{C}. \\
 According to FD (2) and FD (3), \(C^{+}\) = \texttt{(C T I L)} \\
+\texttt{SI1} has \texttt{(S N M A C)}, so \texttt{C} itself is clearly not a key for \texttt{SI1}.\\
 \texttt{SI2} has \texttt{(C T I L G)}, so \texttt{C} cannot uniquely determine a tuple in \texttt{SI2}, i.e. \texttt{C} is not a key for \texttt{SI2}. So it is possible for \texttt{SI2} to have 2 tuples that share the same \texttt{C} value but have different \texttt{G} values.\\
-Therefore, when we join \texttt{SI1} and \texttt{SI2}, a tuple in \texttt{SI1} may have more than 1 tuples in \texttt{SI2} to choose from. In this case, we don't know which one is the original tuple and which one is newly created by the join.\\
-Therefore, the join is lossy.\\
+Therefore, when we join \texttt{SI1} and \texttt{SI2}, a tuple in \texttt{SI1} may have more than 1 tuples in \texttt{SI2} to choose from. In this case, the join introduces additional tuples that do not exist in the original relation.\\
+Therefore, the decomposition is lossy with respect to the given set of FDs.\\
 \\
 \noindent (c) Repeat (b) for the decomposition: \texttt{SI3(S, M, A, C) and SI4(S, N, M, C, T, I, L, G)}. \\
 \\
 \textbf{Answer:}\\
-It is a loss-less join.\\
+It is a lossless-join decomposition.\\
 The share attributes between \texttt{SI3} and \texttt{SI4} are \texttt{S, M, C}.\\
 According to FDs, \( (S M C)^+ = \) \texttt{(S N M A C T I L G)}. \\
-So \texttt{(S M C)} can uniquely determine tuples in \texttt{SI3} and \texttt{SI4}. Therefore, when we join \texttt{SI3} and \texttt{SI4}, there is only one tuple in \texttt{SI3} and one tuple in \texttt{SI4} can join. Therefore, the join is loss-less.
+So \texttt{(S M C)} can uniquely determine tuples in \texttt{SI3} and \texttt{SI4}. Therefore, when we join \texttt{SI3} and \texttt{SI4}, there is only one tuple in \texttt{SI3} and one tuple in \texttt{SI4} can join. \\
+Therefore, the decomposition is a lossless-join decomposition with respect to the given set of FDs.
 
 \end{document}
