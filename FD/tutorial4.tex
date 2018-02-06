@@ -1,0 +1,53 @@
+\documentclass{article}
+\title{Tutorial 4: Logical Database Design}
+\author{
+	Jin, Ziyang\\
+	\texttt{\# 34893140}\\
+	\texttt{f4a0b}
+	\and
+	Kim, Joon Hyung\\
+	\texttt{\# 35183128}\\
+	\texttt{l1m8}
+}
+\date{February 2018}
+
+\begin{document}
+	\maketitle
+	\texttt{StudentInfo(S, N, M, A, C, T, I, L, G)}\\
+	\\
+	with the following FDs:
+	\begin{enumerate}
+		\item \texttt{S -> N}
+		\item \texttt{C -> T, I}
+		\item \texttt{I -> L}
+		\item \texttt{S, C, M -> G}
+		\item \texttt{S, M -> A}
+		\item \texttt{A -> M}
+	\end{enumerate}
+	
+\noindent (a) Give an instance of \texttt{StudentInfo} (i.e., a relation) that illustrates these three anomalies: insertion, deletion, and update.\\
+\begin{itemize}
+	\item \textbf{Insertion Anomaly:} We know an instructor \texttt{I} and his/her InstructorLocation \texttt{L}, but we cannot store this piece of information into \texttt{StudentInfo} without storing \texttt{S, N, M, A, C, T, G} together with \texttt{I, L}.
+	\item \textbf{Deletion Anomaly:} We would like to delete an instructor \texttt{I} and his/her InstructorLocation \texttt{L} since he/she no longer works in the university. However, if we delete any tuple that has \texttt{I, L}, the corresponding student information like student number \texttt{S} and name \texttt{N} will be lost as well. 
+	\item \textbf{Update Anomaly:} We would like to update an instructor's InstructorLocation \texttt{L} since he/she just changed an office. However, if we only update one tuple that has \texttt{I} and its corresponding \texttt{L}, an inconsistency is created because for the same \texttt{I} there are more than one values of \texttt{L}, unless all tuples with the same \texttt{I} are updated with the new \texttt{L}.
+\end{itemize}
+
+\noindent (b) Consider the decomposition of the relation \texttt{StudentInfo} into: \texttt{SI1(S, N, M, A, C) and SI2(C, T, I, L, G)}. Is this a lossy or lossless-join? Justify your answer.\\
+\\
+\textbf{Answer:}\\
+It is a lossy join.\\
+The shared attribute between \texttt{SI1} and \texttt{SI2} is \texttt{C}. \\
+According to FD (2) and FD (3), \(C^{+}\) = \texttt{(C T I L)} \\
+\texttt{SI2} has \texttt{(C T I L G)}, so \texttt{C} cannot uniquely determine a tuple in \texttt{SI2}, i.e. \texttt{C} is not a key for \texttt{SI2}. So it is possible for \texttt{SI2} to have 2 tuples that share the same \texttt{C} value but have different \texttt{G} values.\\
+Therefore, when we join \texttt{SI1} and \texttt{SI2}, a tuple in \texttt{SI1} may have more than 1 tuples in \texttt{SI2} to choose from. In this case, we don't know which one is the original tuple and which one is newly created by the join.\\
+Therefore, the join is lossy.\\
+\\
+\noindent (c) Repeat (b) for the decomposition: \texttt{SI3(S, M, A, C) and SI4(S, N, M, C, T, I, L, G)}. \\
+\\
+\textbf{Answer:}\\
+It is a loss-less join.\\
+The share attributes between \texttt{SI3} and \texttt{SI4} are \texttt{S, M, C}.\\
+According to FDs, \( (S M C)^+ = \) \texttt{(S N M A C T I L G)}. \\
+So \texttt{(S M C)} can uniquely determine tuples in \texttt{SI3} and \texttt{SI4}. Therefore, when we join \texttt{SI3} and \texttt{SI4}, there is only one tuple in \texttt{SI3} and one tuple in \texttt{SI4} can join. Therefore, the join is loss-less.
+
+\end{document}
