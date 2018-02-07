@@ -27,8 +27,10 @@
 	
 \noindent (a) Give an instance of \texttt{StudentInfo} (i.e., a relation) that illustrates these three anomalies: insertion, deletion, and update.\\
 \begin{itemize}
-	\item \textbf{Insertion Anomaly:} We know an instructor \texttt{I} and his/her InstructorLocation \texttt{L}, but we cannot store this piece of information into \texttt{StudentInfo} without storing \texttt{S, N, M, A, C, T, G} together with \texttt{I, L}.
-	\item \textbf{Deletion Anomaly:} We would like to delete an instructor \texttt{I} and his/her InstructorLocation \texttt{L} since he/she no longer works in the university. However, if we delete any tuple that has \texttt{I, L}, the corresponding student information like student number \texttt{S} and name \texttt{N} will be lost as well. 
+	\item \textbf{Insertion Anomaly:} We know an instructor \texttt{I} and his/her InstructorLocation \texttt{L}, but we cannot store this piece of information into \texttt{StudentInfo} without storing other attributes like \texttt{S, M, A, C} etc. together with \texttt{I, L}.
+	
+	\item \textbf{Deletion Anomaly:} If we happen to delete all tuples that have a given advisor \texttt{A}, then we also lose the information that the advisor \texttt{A} is advising for the major \texttt{M}.
+	
 	\item \textbf{Update Anomaly:} We would like to update an instructor's InstructorLocation \texttt{L} since he/she just changed an office. However, if we only update one tuple that has \texttt{I} and its corresponding \texttt{L}, an inconsistency is created because for the same \texttt{I} there are more than one values of \texttt{L}, unless all tuples with the same \texttt{I} are updated with the new \texttt{L}.
 \end{itemize}
 
