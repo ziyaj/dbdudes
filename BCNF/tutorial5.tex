@@ -42,21 +42,90 @@ Since \texttt{(S C)} is not a key, so \texttt{(S C M)} and \texttt{(S C A)} are 
 Consider the maximal set \( \texttt{X}  \subseteq \texttt{(S N M A C T I L G)} \) such that \( \texttt{(S C)} \subset \texttt{X}\) and \( \texttt{A, M} \notin \texttt{X} \). The maximal such \texttt{X} is \texttt{(S N C T I L G)} \\
 \( \texttt{X}^+ = \texttt{(S N C T I L G)}^+ = \texttt{(S N C T I L G)} \neq \texttt{SI} \)\\
 \\
-Therefore, \texttt{(S C M)} and \texttt{(S C A)} are the only keys.\\
-
+Therefore, \texttt{(S C M)} and \texttt{(S C A)} are the only keys for the relation \texttt{SI}.\\
 
 
 \section{Find a minimal cover for this set of FDs.}
 
+1. Put the FDs in a Standard Form.\\
+2. Minimize the Left Side of Each FD.\\
+3. Delete Redundant FDs.\\
+So the minimum cover for this set of FDs is:
+	\begin{enumerate}
+		\item \texttt{S -> N}
+		\item \texttt{C -> T}
+		\item \texttt{C -> I}
+		\item \texttt{I -> L}
+		\item \texttt{S, C, M -> G}
+		\item \texttt{S, M -> A}
+		\item \texttt{A -> M}
+	\end{enumerate}
+
 \section{Obtain a lossless-join, BCNF decomposition of StudentInfo.}
 
+For FD (1), we decompose \texttt{SI} to\\
+\texttt{S1 = (S N)} \\
+\texttt{S2 = (S M A C T I L G)} \\
+\\
+For FD (3), we decompose \texttt{S2} to\\
+\texttt{S3 = (I L)} \\
+\texttt{S4 = (S M A C T I G)} \\
+\\
+For FD (2), we decompose \texttt{S4} to \\
+\texttt{S5 = (C T I)} \\
+\texttt{S6 = (S M A C G)} \\
+\\
+For FD (4), we decompose \texttt{S6} to \\
+\texttt{S7 = (S C M G)} \\
+\texttt{S8 = (S C M A)} \\
+\\
+For FD (6), we decompose \texttt{S8} to \\
+\texttt{S9 = (A M)} \\
+\texttt{S10 = (S C A)}\\
+\\
+Note that FD (5) cannot be applied to S10, the decomposition is done. So the final decomposition of StudentInfo is:\\
+\texttt{S1 = (S N)} \\
+\texttt{S3 = (I L)} \\
+\texttt{S5 = (C T I)} \\
+\texttt{S7 = (S C M G)} \\
+\texttt{S9 = (A M)} \\
+\texttt{S10 = (S C A)}\\
+
+
+
 \section{Obtain a lossless-join, dependency-preserving, 3NF decomposition of StudentInfo by
-making use of the BCNF decomposition in Question (f).}
+making use of the BCNF decomposition in Question (c).}
+The BCNF decomposition we obtained from (c) is:\\
+\texttt{S1 = (S N)} \\
+\texttt{S3 = (I L)} \\
+\texttt{S5 = (C T I)} \\
+\texttt{S7 = (S C M G)} \\
+\texttt{S9 = (A M)} \\
+\texttt{S10 = (S C A)}\\
+The FD (5): \texttt{S, M -> A} is not preserved, so we add \texttt{S11 = (S M A)}.\\
+So the final 3NF decomposition is: \\
+\texttt{S1 = (S N)} \\
+\texttt{S3 = (I L)} \\
+\texttt{S5 = (C T I)} \\
+\texttt{S7 = (S C M G)} \\
+\texttt{S9 = (A M)} \\
+\texttt{S10 = (S C A)}\\
+\texttt{S11 = (S M A)}\\
 
 \section{Obtain a lossless-join, dependency-preserving, 3NF decomposition of StudentInfo via
-synthesis by making use of your minimal cover in Question (e).}
+synthesis by making use of your minimal cover in Question (b).}
+The relations obtained from a minimum cover set is:\\
+\texttt{R1 = (S N)}\\
+\texttt{R2 = (C T)}\\
+\texttt{R3 = (C I)}\\
+\texttt{R4 = (I L)}\\
+\texttt{R5 = (S C M G)}\\
+\texttt{R6 = (S M A)}\\
+\texttt{R7 = (A M)}\\
 
-\section{Comment on the differences, if any, between your answers to Questions (g) and (h).}
+
+
+\section{Comment on the differences, if any, between your answers to Questions (d) and (e).}
 
 
 \end{document}
