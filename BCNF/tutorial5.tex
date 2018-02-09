@@ -32,7 +32,7 @@
 
 Since \texttt{S} and \texttt{C} do not appear in any RHS of the FDs, \\
 \texttt{S} and \texttt{C} must be part of every key. \\
-\( \texttt{(S C)}^+ \) = \texttt{S C N T I L} so \texttt{(S C)} is not a key.\\
+\( \texttt{(S C)}^+ = \texttt{S C N T I L} \neq \texttt{SI} \), so \texttt{(S C)} is not a key.\\
 \\
 Guess \texttt{(S C M)} and \texttt{(S C A)} are keys. \\
 \( \texttt{(S C M)}^+ \) = \texttt{(S C M N T I L G A)} = \texttt{SI} so \texttt{(S C M)} is a superkey.\\
@@ -40,16 +40,25 @@ Guess \texttt{(S C M)} and \texttt{(S C A)} are keys. \\
 Since \texttt{(S C)} is not a key, so \texttt{(S C M)} and \texttt{(S C A)} are minimal, so they are keys. \\
 \\
 Consider the maximal set \( \texttt{X}  \subseteq \texttt{(S N M A C T I L G)} \) such that \( \texttt{(S C)} \subset \texttt{X}\) and \( \texttt{A, M} \notin \texttt{X} \). The maximal such \texttt{X} is \texttt{(S N C T I L G)} \\
-\( \texttt{X}^+ = \texttt{(S N C T I L G)}^+ = \texttt{(S N C T I L G)} \neq \texttt{SI} \)\\
+\( \texttt{X}^+ = \texttt{(S N C T I L G)}^+ = \texttt{S N C T I L G} \neq \texttt{SI} \)\\
+So any set other than \texttt{(S C M)} and \texttt{(S C A)} cannot be a key.\\
 \\
 Therefore, \texttt{(S C M)} and \texttt{(S C A)} are the only keys for the relation \texttt{SI}.\\
 
 
 \section{Find a minimal cover for this set of FDs.}
 
-1. Put the FDs in a Standard Form.\\
-2. Minimize the Left Side of Each FD.\\
-3. Delete Redundant FDs.\\
+\begin{enumerate}
+\item Put the FDs in a Standard Form.\\
+	\texttt{S->N, C->T, C->I, I->L, SCM->G, SM->A, A->M}.
+\item Minimize the Left Side of Each FD.\\
+	Single attribute left sides are already minimized.\\
+	\texttt{SCM->G}: \texttt{S,C} do not appear on LHS. \texttt{M} cannot be reduced from \texttt{S,C}.\\
+	\texttt{SM->A}: \texttt{S} does not appear on LHS. \texttt{M} cannot be reduced from \texttt{S}.\\
+	 So the left sides are all minimized.
+\item Delete Redundant FDs.\\
+	\texttt{N, T, I, L, G, A, M} only appear once on RHS, so there is no redundant FD.
+\end{enumerate}
 So the minimum cover for this set of FDs is:
 	\begin{enumerate}
 		\item \texttt{S -> N}
@@ -63,27 +72,27 @@ So the minimum cover for this set of FDs is:
 
 \section{Obtain a lossless-join, BCNF decomposition of StudentInfo.}
 
-For FD (1), we decompose \texttt{SI} to\\
+For FD (1): \texttt{S->N}, we decompose \texttt{SI} to\\
 \texttt{S1 = (S N)} \\
 \texttt{S2 = (S M A C T I L G)} \\
 \\
-For FD (3), we decompose \texttt{S2} to\\
+For FD (3): \texttt{I->L}, we decompose \texttt{S2} to\\
 \texttt{S3 = (I L)} \\
 \texttt{S4 = (S M A C T I G)} \\
 \\
-For FD (2), we decompose \texttt{S4} to \\
+For FD (2): \texttt{C->T,I}, we decompose \texttt{S4} to \\
 \texttt{S5 = (C T I)} \\
 \texttt{S6 = (S M A C G)} \\
 \\
-For FD (4), we decompose \texttt{S6} to \\
+For FD (4): \texttt{S,C,M->G}, we decompose \texttt{S6} to \\
 \texttt{S7 = (S C M G)} \\
 \texttt{S8 = (S C M A)} \\
 \\
-For FD (6), we decompose \texttt{S8} to \\
+For FD (6): \texttt{A->M}, we decompose \texttt{S8} to \\
 \texttt{S9 = (A M)} \\
 \texttt{S10 = (S C A)}\\
 \\
-Note that FD (5) cannot be applied to S10, the decomposition is done. So the final decomposition of StudentInfo is:\\
+Note that FD (5) cannot be applied to any final decomposed relation, so the decomposition is done. FD (5): \texttt{S,M->A} is not preserved. So the final decomposition of StudentInfo is:\\
 \texttt{S1 = (S N)} \\
 \texttt{S3 = (I L)} \\
 \texttt{S5 = (C T I)} \\
@@ -95,14 +104,7 @@ Note that FD (5) cannot be applied to S10, the decomposition is done. So the fin
 
 \section{Obtain a lossless-join, dependency-preserving, 3NF decomposition of StudentInfo by
 making use of the BCNF decomposition in Question (c).}
-The BCNF decomposition we obtained from (c) is:\\
-\texttt{S1 = (S N)} \\
-\texttt{S3 = (I L)} \\
-\texttt{S5 = (C T I)} \\
-\texttt{S7 = (S C M G)} \\
-\texttt{S9 = (A M)} \\
-\texttt{S10 = (S C A)}\\
-The FD (5): \texttt{S, M -> A} is not preserved, so we add \texttt{S11 = (S M A)}.\\
+The BCNF decomposition we obtained from (c) does not preserve FD (5): \texttt{S,M->A}, so we add \texttt{S11 = (S M A)}.\\
 So the final 3NF decomposition is: \\
 \texttt{S1 = (S N)} \\
 \texttt{S3 = (I L)} \\
@@ -110,10 +112,11 @@ So the final 3NF decomposition is: \\
 \texttt{S7 = (S C M G)} \\
 \texttt{S9 = (A M)} \\
 \texttt{S10 = (S C A)}\\
-\texttt{S11 = (S M A)}\\
+\texttt{S11 = (S M A)}
 
 \section{Obtain a lossless-join, dependency-preserving, 3NF decomposition of StudentInfo via
 synthesis by making use of your minimal cover in Question (b).}
+The minimum cover is \texttt{S->N, C->T, C->I, I->L, SCM->G, SM->A, A-M}.\\
 The relations obtained from a minimum cover set is:\\
 \texttt{R1 = (S N)}\\
 \texttt{R2 = (C T)}\\
