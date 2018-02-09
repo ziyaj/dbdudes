@@ -27,7 +27,7 @@
 	
 \noindent (a) Give an instance of \texttt{StudentInfo} (i.e., a relation) that illustrates these three anomalies: insertion, deletion, and update.\\
 \begin{itemize}
-	\item \textbf{Insertion Anomaly:} We know an instructor \texttt{I} and his/her InstructorLocation \texttt{L}, but we cannot store this piece of information into \texttt{StudentInfo} without storing other attributes like \texttt{S, M, A, C} etc. together with \texttt{I, L}.
+	\item \textbf{Insertion Anomaly:} We know an instructor \texttt{I} and his/her InstructorLocation \texttt{L}, but we cannot store this piece of information into \texttt{StudentInfo} without storing other attributes like \texttt{S, M, A, C,} etc. together with \texttt{I, L}.
 	
 	\item \textbf{Deletion Anomaly:} If we happen to delete all tuples that have a given advisor \texttt{A}, then we also lose the information that the advisor \texttt{A} is advising for the major \texttt{M}.
 	
@@ -39,9 +39,10 @@
 \textbf{Answer:}\\
 It is a lossy decomposition.\\
 The attribute shared between \texttt{SI1} and \texttt{SI2} is \texttt{C}. \\
-According to FD (2) and FD (3), \((C)^{+}\) = \texttt{C T I L} \\
-\texttt{SI2} has \texttt{(C T I L G)}, so \texttt{C} cannot uniquely determine a tuple in \texttt{SI2}, i.e. \texttt{C} is not a key for \texttt{SI2}. So it is possible for \texttt{SI2} to have 2 tuples that share the same \texttt{C} value but have different \texttt{G} values.\\
-Therefore, when we join \texttt{SI1} and \texttt{SI2}, a tuple in \texttt{SI1} may have more than 1 tuples in \texttt{SI2} to choose from. In this case, the join introduces additional tuples that do not exist in the original relation.\\
+According to FD (2) and FD (3), \(\texttt{(C)}^{+}\) = \texttt{C T I L} \\
+\(\texttt{(C)}^{+} \neq \texttt{S N M A C} \), so \texttt{C} cannot be a key for \texttt{SI1}. \\
+\(\texttt{(C)}^{+} \neq \texttt{C T I L G} \), so \texttt{C} cannot uniquely determine a tuple in \texttt{SI2}, i.e. \texttt{C} is not a key for \texttt{SI2}. So it is possible for \texttt{SI2} to have 2 tuples that share the same \texttt{C} value but have different \texttt{G} values.\\
+Therefore, when we join \texttt{SI1} and \texttt{SI2}, a tuple in \texttt{SI1} may have more than 1 tuples in \texttt{SI2} to choose from, and vice versa. In this case, the join introduces additional tuples that do not exist in the original relation.\\
 Therefore, the decomposition is lossy with respect to the given set of FDs.\\
 \\
 \noindent (c) Repeat (b) for the decomposition: \texttt{SI3(S, M, A, C) and SI4(S, N, M, C, T, I, L, G)}. \\
@@ -49,7 +50,7 @@ Therefore, the decomposition is lossy with respect to the given set of FDs.\\
 \textbf{Answer:}\\
 It is a lossless-join decomposition.\\
 The attributes shared between \texttt{SI3} and \texttt{SI4} are \texttt{S, M, C}.\\
-According to FDs, \( (S M C)^+ = \) \texttt{S N M A C T I L G}. \\
+According to FDs, \( \texttt{(S M C)}^+ = \) \texttt{S N M A C T I L G}. \\
 So \texttt{(S M C)} can uniquely determine tuples in \texttt{SI3} and \texttt{SI4}, i.e., \texttt{(S M C)} is the key for both \texttt{SI3} and \texttt{SI4}. Therefore, when we join \texttt{SI3} and \texttt{SI4}, there is only one tuple in \texttt{SI3} and one tuple in \texttt{SI4} can join. \\
 Therefore, the decomposition is a lossless-join decomposition with respect to the given set of FDs.
 
