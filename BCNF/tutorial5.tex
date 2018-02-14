@@ -52,10 +52,10 @@ Therefore, \texttt{(S C M)} and \texttt{(S C A)} are the only keys for the relat
 \item Put the FDs in a Standard Form.\\
 	\texttt{S->N, C->T, C->I, I->L, SCM->G, SM->A, A->M}.
 \item Minimize the Left Side of Each FD.\\
-	Single attribute left sides are already minimized.\\
-	\texttt{SCM->G}: \texttt{S,C} do not appear on LHS. \texttt{M} cannot be reduced from \texttt{S,C}.\\
-	\texttt{SM->A}: \texttt{S} does not appear on LHS. \texttt{M} cannot be reduced from \texttt{S}.\\
-	 So the left sides are all minimized.
+	a) Single attribute left sides are already minimized.\\
+	b) For FD \texttt{SCM->G}, notice that \texttt{S,C} do not appear on LHS, and \texttt{M} cannot be reduced from \texttt{S,C}. Therefore the LHS is minimal. \\
+	c) For FD \texttt{SM->A}, notice that \texttt{S} does not appear on LHS, and \texttt{M} cannot be reduced from \texttt{S}. Therefore the LHS is minimal. \\
+	So the left sides are all minimized.
 \item Delete Redundant FDs.\\
 	\texttt{N, T, I, L, G, A, M} only appear once on RHS, so there is no redundant FD.
 \end{enumerate}
@@ -92,13 +92,13 @@ For FD (6): \texttt{A->M}, we decompose \texttt{S8} to \\
 \texttt{S9 = (A M)} \\
 \texttt{S10 = (S C A)}\\
 \\
-Note that FD (5) cannot be applied to any final decomposed relation, so the decomposition is done. FD (5): \texttt{S,M->A} is not preserved. So the final decomposition of StudentInfo is:\\
-\texttt{S1 = (S N)} \\
-\texttt{S3 = (I L)} \\
-\texttt{S5 = (C T I)} \\
-\texttt{S7 = (S C M G)} \\
-\texttt{S9 = (A M)} \\
-\texttt{S10 = (S C A)}\\
+Note that FD (5) cannot be applied to any final decomposed relation, so the decomposition is done. FD (5): \texttt{S,M->A} is not preserved. So the final decomposition of \texttt{StudentInfo} is:\\
+1. \texttt{S1 = (S N)} \\
+2. \texttt{S3 = (I L)} \\
+3. \texttt{S5 = (C T I)} \\
+4. \texttt{S7 = (S C M G)} \\
+5. \texttt{S9 = (A M)} \\
+6. \texttt{S10 = (S C A)}\\
 
 
 
@@ -110,12 +110,12 @@ So the final 3NF decomposition is: \\
 \\
 Since \(\texttt{S9} \subset \texttt{S11}\), we can drop \texttt{S9}.
 So the final decomposition is:\\
-\texttt{S1 = (S N)} \\
-\texttt{S3 = (I L)} \\
-\texttt{S5 = (C T I)} \\
-\texttt{S7 = (S C M G)} \\
-\texttt{S10 = (S C A)}\\
-\texttt{S11 = (S M A)}\\
+1. \texttt{S1 = (S N)} \\
+2. \texttt{S3 = (I L)} \\
+3. \texttt{S5 = (C T I)} \\
+4. \texttt{S7 = (S C M G)} \\
+5. \texttt{S10 = (S C A)}\\
+6. \texttt{S11 = (S M A)}\\
 
 
 \section{Obtain a lossless-join, dependency-preserving, 3NF decomposition of StudentInfo via
@@ -131,13 +131,15 @@ Since \( \texttt{R7} \subset \texttt{R6} \), we can drop \texttt{R7}.
 Since \texttt{R2} and \texttt{R3} share the same key \texttt{C}, we can merge them to \texttt{R23 = (C T I)}.
 \\
 So the final decomposition is:\\
-\texttt{R1 = (S N)}\\
-\texttt{R23 = (C T I)}\\
-\texttt{R4 = (I L)}\\
-\texttt{R5 = (S C M G)}\\
-\texttt{R6 = (S M A)}\\
+1. \texttt{R1 = (S N)}\\
+2. \texttt{R23 = (C T I)}\\
+3. \texttt{R4 = (I L)}\\
+4. \texttt{R5 = (S C M G)}\\
+5. \texttt{R6 = (S M A)}\\
 
 \section{Comment on the differences, if any, between your answers to Questions (d) and (e).}
 The decomposition obtained from (d) has one extra relation \texttt{R = (S C A)} comparing to the decomposition obtained from (e).\\
+\\
+So the synthesis approach usually results in less number of tables than the BCNF decomposition approach.
 
 \end{document}
