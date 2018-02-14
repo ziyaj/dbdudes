@@ -106,33 +106,38 @@ Note that FD (5) cannot be applied to any final decomposed relation, so the deco
 making use of the BCNF decomposition in Question (c).}
 The BCNF decomposition we obtained from (c) does not preserve FD (5): \texttt{S,M->A}, so we add \texttt{S11 = (S M A)}.\\
 So the final 3NF decomposition is: \\
+\texttt{S1 = (S N)}, \texttt{S3 = (I L)}, \texttt{S5 = (C T I)}, \texttt{S7 = (S C M G)}, \texttt{S9 = (A M)}, \texttt{S10 = (S C A)}, \texttt{S11 = (S M A)}\\
+\\
+Since \(\texttt{S9} \subset \texttt{S11}\), we can drop \texttt{S9}.
+So the final decomposition is:\\
 \texttt{S1 = (S N)} \\
 \texttt{S3 = (I L)} \\
 \texttt{S5 = (C T I)} \\
 \texttt{S7 = (S C M G)} \\
-\texttt{S9 = (A M)} \\
 \texttt{S10 = (S C A)}\\
-\texttt{S11 = (S M A)}
+\texttt{S11 = (S M A)}\\
+
 
 \section{Obtain a lossless-join, dependency-preserving, 3NF decomposition of StudentInfo via
 synthesis by making use of your minimal cover in Question (b).}
 The minimum cover is \texttt{S->N, C->T, C->I, I->L, SCM->G, SM->A, A-M}.\\
 The relations obtained from a minimum cover set is:\\
+\texttt{R1 = (S N)}, \texttt{R2 = (C T)}, \texttt{R3 = (C I)}, \texttt{R4 = (I L)}, \texttt{R5 = (S C M G)}, \texttt{R6 = (S M A)}, \texttt{R7 = (A M)}\\
+\\
+Check if any relation contains a key to the original relation:
+\texttt{R5 = (S C M G)} contains key \texttt{(S C M)}, so it is a lossless-join decomposition.\\
+\\
+Since \( \texttt{R7} \subset \texttt{R6} \), we can drop \texttt{R7}.
+Since \texttt{R2} and \texttt{R3} share the same key \texttt{C}, we can merge them to \texttt{R23 = (C T I)}.
+\\
+So the final decomposition is:\\
 \texttt{R1 = (S N)}\\
-\texttt{R2 = (C T)}\\
-\texttt{R3 = (C I)}\\
+\texttt{R23 = (C T I)}\\
 \texttt{R4 = (I L)}\\
 \texttt{R5 = (S C M G)}\\
 \texttt{R6 = (S M A)}\\
-\texttt{R7 = (A M)}\\
-
-
 
 \section{Comment on the differences, if any, between your answers to Questions (d) and (e).}
-The decomposition obtained from (d) combines \texttt{(C T)} and \texttt{(C I)} to \texttt{(C T I)}.\\
-The decomposition obtained from (e) uses minimal cover set so it results in \texttt{(C T)} and \texttt{(C I)}.\\
-\\
-The decomposition obtained from (d) has \texttt{(S C A)} when we decompose \texttt{(S C M A)} with FD \texttt{A->M}.\\
-
+The decomposition obtained from (d) has one extra relation \texttt{R = (S C A)} comparing to the decomposition obtained from (e).\\
 
 \end{document}
