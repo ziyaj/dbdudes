@@ -118,16 +118,29 @@ No. The resulting tuple is removed only all of the attributes in the tuple are t
 
 \section{Find the type and name of those items, whose price is at most \$100 OR which were ordered
 by the customer with cid=123.}
+
+%\[
+%\pi_{type, iname}(\sigma_{price \leq 100}(item)) \cup \pi_{type, iname}(\sigma_{cid=123}(order) \bowtie item)
+%\]
+
 \[
-\pi_{type, iname}(\sigma_{price \leq 100}(item)) \cup \pi_{type, iname}(\sigma_{cid=123}(order) \bowtie item)
+\pi_{type, iname}(\sigma_{price \leq 100 \ \vee \  cid=123}(item \bowtie order))
 \]
+\\
+If all items whose price is at most \$100 also show up at the \texttt{order} relation, then the query above will contain all the required information.
 
 \section{Consider the query: "Find the names of customers who did not order any laptop, i.e., did not
 order any item of type laptop" and the \(RA^{SPJ} \) query. Does the \(RA^{SPJ} \) query above correctly capture the English query above? Justify your answer.}
 \[
 \pi_{cname}(customer \bowtie order \bowtie \sigma_{type \neq 'laptop'}(item))
 \]
-No. The join between customer and order only selects customers that have ordered something. If a customer has never ordered anything, the customer still qualifies the case "who did not order any laptop". However, in this join, these qualifying customers who have not ordered anything are lost. Therefore, the \( RA^{SPJ} \) query above does not correctly capture the English query above.
+No.\\
+\\
+\textbf{Reason 1: Edge Case}\\
+The join between customer and order only selects customers that have ordered something. If a customer has never ordered anything, the customer still qualifies the case "who did not order any laptop". However, in this join, these qualifying customers who have not ordered anything are lost. Therefore, the \( RA^{SPJ} \) query above does not correctly capture the English query above.\\
+\\
+\textbf{Reason 2: Semantics of NOT}\\
+Consider the case where a customer has ordered a laptop and another item that is not laptop. In the English query, we do not want the customer to be included in the result because the customer has ordered a laptop. In the \(RA^{SPJ}\) query, the query only eliminates the 'laptop' items and let go other types of items. So the customer who ordered a laptop and another item will still be selected --- by the tuple of "another" item the customer ordered.
 
 
 
