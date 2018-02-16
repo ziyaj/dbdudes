@@ -12,7 +12,7 @@
 }
 \date{February 2018}
 
-\sectionfont{\fontsize{10}{15}\selectfont}
+\sectionfont{\fontsize{10}{18}\selectfont}
 
 \begin{document}
 	\maketitle
@@ -41,5 +41,37 @@ It depends on the actual instance of \textit{item}. The number of tuples can var
 \\
 \texttt{(iname type)} is not a key. There is also no uniqueness constraint on \texttt{iname} and \texttt{type}. So it is possible that \texttt{iname} and \texttt{type} are the same for these 1000 tuples. In this case, the resulting projection will remove duplicates and result in 1 tuple. It is also possible that \texttt{iname} and \texttt{type} are distinct from tuple to tuple, so the resulting projection will have 1000 distinct tuples. Therefore, it is possible that some of the \texttt{(iname type)} pairs are duplicates and some of them are distinct so the result can vary from 1 to 1000.
 
+
+\section{Suppose in addition to the key dependencies identified by the primary keys in the given
+relations, we are told that every item name uniquely determines its type, i.e., that the FD
+iname \(\to\) type holds. Suppose there are 950 distinct item names in the item table.}
+
+\begin{enumerate}
+\item  Then how many tuples will be present in the result of the following \(RA^{SPJ}\) query. Explain you answer.
+\[
+\pi_{iname, type}(item)
+\]
+There will be 950 tuples in the result. Because there are 950 distinct item names in the item table. If we project \texttt{(iname type)} pair, none of the resulting pairs will be removed as a duplicate because each pair has a unique \texttt{iname}. So there will be 950 tuples in the result.
+
+\item Would your answer change if the query instead was:
+\[
+\pi_{iname, type, price}(item)
+\]
+No. The resulting tuple is removed only all of the attributes in the tuple are the same as another. Since \texttt{iname}'s are distinct, the entire resulting tuples are distinct. Therefore, there is no duplicate tuple to be removed in the result. The result will have exactly 950 tuples.
+
+\end{enumerate}
+
+\section{Find the type and name of those items, whose price is at most \$100 OR which were ordered
+by the customer with cid=123.}
+\[
+\pi_{type, iname}(\sigma_{price \leq 100}(item)) \cup \pi_{type, iname}(\sigma_{cid=123}(order) \bowtie item)
+\]
+
+\section{Consider the query: "Find the names of customers who did not order any laptop, i.e., did not
+order any item of type laptop" and the \(RA^{SPJ} \) query. Does the \(RA^{SPJ} \) query above correctly capture the English query above? Justify your answer.}
+\[
+\pi_{cname}(customer \bowtie order \bowtie \sigma_{type \neq 'laptop'}(item))
+\]
+No. The join between customer and order only selects customers that have ordered something. If a customer has never ordered anything, the customer still qualifies the case "who did not order any laptop". However, in this join, these qualifying customers who have not ordered anything are lost. Therefore, the \( RA^{SPJ} \) query above does not correctly capture the English query above.
 
 \end{document}
