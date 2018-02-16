@@ -12,7 +12,7 @@
 }
 \date{February 2018}
 
-\sectionfont{\fontsize{12}{15}\selectfont}
+\sectionfont{\fontsize{10}{15}\selectfont}
 
 \begin{document}
 	\maketitle
@@ -23,5 +23,23 @@ customer(\textbf{cid}, cname, rating, salary)\\
 order(\textbf{cid, iid, day,} qty)\\
 item(\textbf{iid}, iname, type, price)\\
 \\
+
+\section{Find the details (i.e., all attributes) of the customers who have a rating higher than 6 and earn less than \$125,000.}
+\[
+\sigma_{rating > 6 \  \wedge \ salary < 125000}(customer)
+\]
+
+\section{Find the names and types of items which were ordered by some customer named `Bob' who is rated above 5.}
+\[
+\pi_{iname, type}(\sigma_{cname='Bob' \ \wedge \ rating > 5}(customer) \bowtie item)
+\]
+
+\section{Consider the query \(\pi_{iname,type}(item)\). Suppose item has 1000 tuples. Then how many tuples
+will the result of the above projection query contain? Explain your answer.}
+
+It depends on the actual instance of \textit{item}. The number of tuples can vary from 1 to 1000.\\
+\\
+\texttt{(iname type)} is not a key. There is also no uniqueness constraint on \texttt{iname} and \texttt{type}. So it is possible that \texttt{iname} and \texttt{type} are the same for these 1000 tuples. In this case, the resulting projection will remove duplicates and result in 1 tuple. It is also possible that \texttt{iname} and \texttt{type} are distinct from tuple to tuple, so the resulting projection will have 1000 distinct tuples. Therefore, it is possible that some of the \texttt{(iname type)} pairs are duplicates and some of them are distinct so the result can vary from 1 to 1000.
+
 
 \end{document}
