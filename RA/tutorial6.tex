@@ -79,17 +79,17 @@ item
 \end{tabular}
 \end{center}
 
-\section{Find the details (i.e., all attributes) of the customers who have a rating higher than 6 and earn less than \$125,000.}
+\section{(a) Find the details (i.e., all attributes) of the customers who have a rating higher than 6 and earn less than \$125,000.}
 \[
 \sigma_{rating > 6 \  \wedge \ salary < 125000}(customer)
 \]
 
-\section{Find the names and types of items which were ordered by some customer named `Bob' who is rated above 5.}
+\section{(b) Find the names and types of items which were ordered by some customer named `Bob' who is rated above 5.}
 \[
 \pi_{iname, type}(\sigma_{cname='Bob' \ \wedge \ rating > 5}(customer) \bowtie item)
 \]
 
-\section{Consider the query \(\pi_{iname,type}(item)\). Suppose item has 1000 tuples. Then how many tuples
+\section{(c) Consider the query \(\pi_{iname,type}(item)\). Suppose item has 1000 tuples. Then how many tuples
 will the result of the above projection query contain? Explain your answer.}
 
 It depends on the actual instance of \textit{item}. The number of tuples can vary from 1 to 1000.\\
@@ -97,7 +97,7 @@ It depends on the actual instance of \textit{item}. The number of tuples can var
 \texttt{(iname type)} is not a key. There is also no uniqueness constraint on \texttt{iname} and \texttt{type}. So it is possible that \texttt{iname} and \texttt{type} are the same for these 1000 tuples. In this case, the resulting projection will remove duplicates and result in 1 tuple. It is also possible that \texttt{iname} and \texttt{type} are distinct from tuple to tuple, so the resulting projection will have 1000 distinct tuples. Therefore, it is possible that some of the \texttt{(iname type)} pairs are duplicates and some of them are distinct so the result can vary from 1 to 1000.
 
 
-\section{Suppose in addition to the key dependencies identified by the primary keys in the given
+\section{(d) Suppose in addition to the key dependencies identified by the primary keys in the given
 relations, we are told that every item name uniquely determines its type, i.e., that the FD
 iname \(\to\) type holds. Suppose there are 950 distinct item names in the item table.}
 
@@ -116,20 +116,16 @@ No. The resulting tuple is removed only all of the attributes in the tuple are t
 
 \end{enumerate}
 
-\section{Find the type and name of those items, whose price is at most \$100 OR which were ordered
+\section{(e) Find the type and name of those items, whose price is at most \$100 OR which were ordered
 by the customer with cid=123.}
 
-%\[
-%\pi_{type, iname}(\sigma_{price \leq 100}(item)) \cup \pi_{type, iname}(\sigma_{cid=123}(order) \bowtie item)
-%\]
-
 \[
-\pi_{type, iname}(\sigma_{price \leq 100 \ \vee \  cid=123}(item \bowtie order))
+\pi_{type, iname}(\sigma_{price \leq 100 \ \vee \  cid=123}(item \bowtie_{true} order))
 \]
 \\
-If all items whose price is at most \$100 also show up at the \texttt{order} relation, then the query above will contain all the required information.
+%If all items whose price is at most \$100 also show up at the \texttt{order} relation, then the query above will contain all the required information.
 
-\section{Consider the query: "Find the names of customers who did not order any laptop, i.e., did not
+\section{(f) Consider the query: "Find the names of customers who did not order any laptop, i.e., did not
 order any item of type laptop" and the \(RA^{SPJ} \) query. Does the \(RA^{SPJ} \) query above correctly capture the English query above? Justify your answer.}
 \[
 \pi_{cname}(customer \bowtie order \bowtie \sigma_{type \neq 'laptop'}(item))
