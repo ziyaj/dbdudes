@@ -120,7 +120,7 @@ No. The resulting tuple is removed only all of the attributes in the tuple are t
 by the customer with cid=123.}
 
 \[
-\pi_{type, iname}(\sigma_{price \leq 100 \ \vee \  cid=123}(item \bowtie_{true} order))
+\pi_{type, iname}(\sigma_{price \leq 100 \ \vee \  (item.iid = order.iid \ \wedge \ cid=123))}(item \bowtie_{true} order))
 \]
 \\
 %If all items whose price is at most \$100 also show up at the \texttt{order} relation, then the query above will contain all the required information.
