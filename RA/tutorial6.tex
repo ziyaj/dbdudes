@@ -86,7 +86,7 @@ item(\textbf{iid}, iname, type, price)
 
 \section{(b) Find the names and types of items which were ordered by some customer named `Bob' who is rated above 5.}
 \[
-\pi_{iname, type}(\sigma_{cname='Bob' \ \wedge \ rating > 5}(customer) \bowtie item)
+\pi_{iname, type}(\sigma_{cname='Bob' \ \wedge \ rating > 5}(customer) \bowtie order \bowtie item)
 \]
 
 \section{(c) Consider the query \(\pi_{iname,type}(item)\). Suppose item has 1000 tuples. Then how many tuples
@@ -106,13 +106,19 @@ iname \(\to\) type holds. Suppose there are 950 distinct item names in the item 
 \[
 \pi_{iname, type}(item)
 \]
-There will be 950 tuples in the result. Because there are 950 distinct item names in the item table. If we project \texttt{(iname type)} pair, none of the resulting pairs will be removed as a duplicate because each pair has a unique \texttt{iname}. So there will be 950 tuples in the result.
+There will be exactly 950 tuples in the result. Because there are 950 distinct item names in the item table. If we project \texttt{(iname type)} pair, none of the resulting pairs will be removed as a duplicate because each pair has a unique \texttt{iname}. So there will be 950 tuples in the result.\\
 
 \item Would your answer change if the query instead was:
 \[
 \pi_{iname, type, price}(item)
 \]
-No. The resulting tuple is removed only all of the attributes in the tuple are the same as another. Since \texttt{iname}'s are distinct, the entire resulting tuples are distinct. Therefore, there is no duplicate tuple to be removed in the result. The result will have exactly 950 tuples.
+Yes. There will be at least 950 tuples in the result.\\
+
+The resulting tuple is removed only all of the attributes in the tuple are the same as another. Since \texttt{iname}'s are distinct, the entire resulting tuples are distinct. Therefore, there is no duplicate tuple to be removed in the result. The result cannot have fewer than 950 tuples.\\
+
+However, \texttt{iname} is not a key, nor is it unique in the entire table. So it is possible that there are 2 or more tuples with different \texttt{iid}, different \texttt{price}, but same \texttt{iname} and same \texttt{type}. In the result, because the \texttt{price} is different, the tuples with same \texttt{iname, type} but different \texttt{price} are not duplicates so they will not be removed. So there can be more than 950 tuples.
+
+
 
 \end{enumerate}
 
