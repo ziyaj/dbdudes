@@ -1,5 +1,5 @@
 \documentclass{article}
-\usepackage{sectsty}
+\usepackage{dirtytalk}
 \title{Tutorial 7: Basic Relational Algebra}
 \author{
 	Jin, Ziyang\\
@@ -12,7 +12,9 @@
 }
 \date{February 2018}
 
-\sectionfont{\fontsize{10}{18}\selectfont}
+\newcommand{\anyvar}{\underline{\hspace{0.8em}}}
+\newcommand{\RA}{\textbf{RA}}
+\newcommand{\DL}{\textbf{Datalog}}
 
 \begin{document}
 	\maketitle
@@ -24,6 +26,35 @@ underlined.\\
 \textbf{boats(\underline{bid}, bname, color)}\\
 \textbf{reserved(\underline{sid}, \underline{bid}, date)}
 
+\begin{enumerate}
+\item Find the names of sailors who have reserved at least two different boats with the same color.
+	\begin{itemize}
+	\item \RA\\
+	$rb \gets \pi_{sid, bid, color} (reserved \bowtie boats) $\\
+	$good \gets \pi_{sid} (rb \bowtie_{rb.sid = rb2.sid\ \land \ rb.bid \neq rb2.bid\ \land \ rb.color = rb2.color} \rho_{rb2}(rb) )$\\
+	$answer \gets \pi_{sname} (good \bowtie sailors)$
+	\item \DL \\
+	$ rb(S, B, C) \gets reserved(S, B, \anyvar ),\ boats(B, \anyvar , C) $\\
+	$ good(S) \gets rb(S, B, C),\ rb(S, B', C),\ B \neq B' $\\
+	$ answer(N) \gets good(S),\ sailors(S, N, \anyvar, \anyvar)$
+	\end{itemize}
+\item Find the names of sailors who have reserved all red boats.
+	\begin{itemize}
+	\item \RA \\
+	$ allred \gets \pi_{bid} (\sigma_{color = 'red'} boats)$ \\
+	$ good \gets (\pi_{sid, bid} reserved) \div allred $\\
+	$ answer \gets \pi_{sname}(good \bowtie sailors)$
+	\item \DL \\
+	$ allred(B) \gets boats(B, \anyvar,\  'red') $\\
+	$ witness(S, B) \gets reserved(S, B, \anyvar),\ allred(B) $ \\
+	$ bad(N) \gets sailors(S, N, \anyvar, \anyvar),\ reserved(S, B, \anyvar), \neg witness(S, B) $ \\
+	$ answer(N) \gets sailors(\anyvar, N, \anyvar, \anyvar), \neg bad(N) $
+	\end{itemize}
+\item Find the name and color of boats which are reserved by all sailors rated above 7.
+\item Find the name(s) of sailors with the lowest rating.
+\item Find the name and rating of the oldest sailor(s).
+\item Find the names of sailors who have reserved every boat reserved by those with a lower rating. 
+\end{enumerate}
 
 
 
