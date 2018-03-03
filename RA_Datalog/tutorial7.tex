@@ -51,7 +51,29 @@ underlined.\\
 	$ answer(N) \gets sailors(\anyvar, N, \anyvar, \anyvar), \neg bad(N) $
 	\end{itemize}
 \item Find the name and color of boats which are reserved by all sailors rated above 7.
+	\begin{itemize}
+	\item \RA \\
+	$ above7 \gets \pi_{sid}(\sigma_{rating > 7} sailors) $ \\
+	$ witness \gets \pi_{sid, bid}(above7 \bowtie reserved) $ \\
+	$ bad \gets \pi_{bid}(above7 \times \pi_{bid}reserved - witness) $ \\
+	$ good \gets \pi_{bid}reserved - bad$ \\
+	$ answer \gets \pi_{bname, color}(good \bowtie boats)$
+	\item \DL \\
+	$ above7(S) \gets sailors(S, \anyvar, R, \anyvar), \ R > 7$ \\
+	$ witness(S, B) \gets reserved(S, B, \anyvar),\ above7(S) $ \\
+	$ bad(B) \gets above7(S),\ reserved(\anyvar, B, \anyvar),\ \neg witness(S, B) $ \\
+	$ good(B) \gets reserved(\anyvar, B, \anyvar),\ \neg bad(B) $ \\
+	$ answer(N, C) \gets good(B),\ boats(B, N, C) $
+	\end{itemize}
 \item Find the name(s) of sailors with the lowest rating.
+	\begin{itemize}
+	\item \RA \\
+	$ notlowest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.rating > sailors2.rating} (\rho_{sailors2} sailors)) $ \\
+	$ lowest \gets \pi_{sname}((\pi_{sid}sailors - notlowest) \bowtie sailors) $
+	\item \DL \\
+	$ notlowest(S) \gets sailors(S, \anyvar, R, \anyvar), \ sailors(S', \anyvar, R', \anyvar), R > R' $ \\
+	$ lowest(N) \gets sailors(S, N, \anyvar, \anyvar), \ \neg notlowest(S) $
+	\end{itemize}
 \item Find the name and rating of the oldest sailor(s).
 \item Find the names of sailors who have reserved every boat reserved by those with a lower rating. 
 \end{enumerate}
