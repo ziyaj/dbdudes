@@ -25,7 +25,7 @@ underlined.\\
 \textbf{sailors(\underline{sid}, sname, rating, age)}\\
 \textbf{boats(\underline{bid}, bname, color)}\\
 \textbf{reserved(\underline{sid}, \underline{bid}, date)}\\
-\\
+
 \begin{enumerate}
 \item Find the names of sailors who have reserved at least two different boats with the same color.
 	\begin{itemize}
@@ -69,7 +69,7 @@ underlined.\\
 \item Find the name(s) of sailors with the lowest rating.
 	\begin{itemize}
 	\item \RA \\
-	$ notlowest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.rating > sailors2.rating} (\rho_{sailors2} sailors)) $ \\
+	$ notlowest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.rating > sailors2.rating} (\rho_{sailors2} (sailors))) $ \\
 	$ lowest \gets \pi_{sname}((\pi_{sid}sailors - notlowest) \bowtie sailors) $
 	\item \DL \\
 	$ notlowest(S) \gets sailors(S, \anyvar, R, \anyvar), \ sailors(S', \anyvar, R', \anyvar), R > R' $ \\
@@ -78,31 +78,31 @@ underlined.\\
 \item Find the name and rating of the oldest sailor(s).
 	\begin{itemize}
 	\item \RA \\
-	$ notoldest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.age < sailors2.age} (\rho_{sailors2}sailors))$ \\
+	$ notoldest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.age < sailors2.age} (\rho_{sailors2}(sailors)))$ \\
 	$ oldest \gets \pi_{sname, rating}((\pi_{sid} sailors - notoldest) \bowtie sailors) $
 	\item \DL \\
 	$ notoldest(S) \gets sailors(S, \anyvar, \anyvar, A),\ sailors(S', \anyvar, \anyvar, A'),\ A < A' $ \\
 	$ oldest(N, R) \gets sailors(S, N, R, \anyvar),\ \neg notoldest(S) $
 	\end{itemize}
-\item Find the names of sailors who have reserved every boat reserved by those with a lower rating. E.g., if Bob is a sailor rated at 6, Pete and Rick are sailors rated below 6, then Bob must have reserved every boat reserved by Pete as well as those reserved by Rick. Can you express this query using RA?s division operator? Explain your answer.\\
+\item Find the names of sailors who have reserved every boat reserved by those with a lower rating. E.g., if Bob is a sailor rated at 6, Pete and Rick being sailors rated below 6, then Bob must have reserved every boat reserved by Pete as well as those reserved by Rick. Can you express this query using RA?s division operator? Explain your answer.\\
 \\
 \textbf{Answer}\\
 \\
-We cannot express this query using RA's division operator. Because the denominator is the set of boats that are reserved by those with a lower rating. For each sailor, the set of sailors that have a lower rating can vary, thus the set of boats reserved by those with a lower rating can vary. RA's division expression cannot express varying denominator.\\
+We cannot express this query using RA's division operator. Because the denominator is the set of boats that are reserved by those with a lower rating. For each sailor, the set of sailors with a lower rating can vary, thus the set of boats reserved can vary. RA's division can only express fixed denominator so it does not work.\\
 \\
 \begin{itemize}
 	\item \RA \\
 	$ map \gets \rho_{sailors2.sid \to sid2}(sailors \bowtie_{rating > sailors2.rating} (\rho_{sailors2} (sailors))) $ \\
-	$ from \gets \pi_{sid, sid2, bid}(map \bowtie_{sid2 = reserved.sid} reserved) $ \\
-	$ witness \gets \pi_{sid, sid2, bid}(map \bowtie_{sid = reserved.sid} reserved)$ \\
-	$ bad \gets \pi_{sid} (from - witness) $ \\
+	$ allcombo \gets \pi_{sid, sid2, bid}(map \bowtie_{map.sid2 = reserved.sid} reserved) $ \\
+	$ witness \gets \pi_{sid, sid2, bid}(map \bowtie_{map.sid = reserved.sid} reserved)$ \\
+	$ bad \gets \pi_{sid} (allcombo - witness) $ \\
 	$ good \gets \pi_{sname}((\pi_{sid} reserved - bad) \bowtie sailors) $ 
 	\item \DL \\
 	$ witness(S, B) \gets reserved(S, B, \anyvar) $ \\
-	$ bad(S) \gets sailors(S, N, R, \anyvar), sailors(S', \anyvar, R', \anyvar),\ R > R',\ \neg witness(S, B),\  witness(S', B') $ \\
+	$ bad(S) \gets sailors(S, \anyvar, R, \anyvar),\ sailors(S', \anyvar, R', \anyvar),\ R > R',\ \neg witness(S, B),\  witness(S', B') $ \\
 	$ good(N) \gets sailors(S, N, \anyvar, \anyvar), \ \neg bad(S)$
 \end{itemize}
-	
+
 \end{enumerate}
 
 
