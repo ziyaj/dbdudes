@@ -75,7 +75,33 @@ underlined.\\
 	$ lowest(N) \gets sailors(S, N, \anyvar, \anyvar), \ \neg notlowest(S) $
 	\end{itemize}
 \item Find the name and rating of the oldest sailor(s).
-\item Find the names of sailors who have reserved every boat reserved by those with a lower rating. 
+	\begin{itemize}
+	\item \RA \\
+	$ notoldest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.age < sailors2.age} (\rho_{sailors2}sailors))$ \\
+	$ oldest \gets \pi_{sname, rating}((\pi_{sid} sailors - notoldest) \bowtie sailors) $
+	\item \DL \\
+	$ notoldest(S) \gets sailors(S, \anyvar, \anyvar, A),\ sailors(S', \anyvar, \anyvar, A'),\ A < A' $ \\
+	$ oldest(N, R) \gets sailors(S, N, R, \anyvar),\ \neg notoldest(S) $
+	\end{itemize}
+\item Find the names of sailors who have reserved every boat reserved by those with a lower rating. E.g., if Bob is a sailor rated at 6, Pete and Rick are sailors rated below 6, then Bob must have reserved every boat reserved by Pete as well as those reserved by Rick. Can you express this query using RA?s division operator? Explain your answer.\\
+\\
+\textbf{Answer}\\
+\\
+We cannot express this query using RA's division operator. Because the denominator is the set of boats that are reserved by those with a lower rating. For each sailor, the set of sailors that have a lower rating can vary, thus the set of boats reserved by those with a lower rating can vary. RA's division expression cannot express varying denominator.\\
+\\
+\begin{itemize}
+	\item \RA \\
+	$ map \gets \rho_{sailors2.sid \to sid2}(sailors \bowtie_{rating > sailors2.rating} (\rho_{sailors2} (sailors))) $ \\
+	$ from \gets \pi_{sid, sid2, bid}(map \bowtie_{sid2 = reserved.sid} reserved) $ \\
+	$ witness \gets \pi_{sid, sid2, bid}(map \bowtie_{sid = reserved.sid} reserved)$ \\
+	$ bad \gets \pi_{sid} (from - witness) $ \\
+	$ good \gets \pi_{sname}((\pi_{sid} reserved - bad) \bowtie sailors) $ 
+	\item \DL \\
+	$ witness(S, B) \gets reserved(S, B, \anyvar) $ \\
+	$ bad(S) \gets sailors(S, N, R, \anyvar), sailors(S', \anyvar, R', \anyvar),\ R > R',\ \neg witness(S, B),\  witness(S', B') $ \\
+	$ good(N) \gets sailors(S, N, \anyvar, \anyvar), \ \neg bad(S)$
+\end{itemize}
+	
 \end{enumerate}
 
 
