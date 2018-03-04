@@ -24,14 +24,14 @@ underlined.\\
 \\
 \textbf{sailors(\underline{sid}, sname, rating, age)}\\
 \textbf{boats(\underline{bid}, bname, color)}\\
-\textbf{reserved(\underline{sid}, \underline{bid}, date)}
-
+\textbf{reserved(\underline{sid}, \underline{bid}, date)}\\
+\\
 \begin{enumerate}
 \item Find the names of sailors who have reserved at least two different boats with the same color.
 	\begin{itemize}
 	\item \RA\\
 	$rb \gets \pi_{sid, bid, color} (reserved \bowtie boats) $\\
-	$good \gets \pi_{sid} (rb \bowtie_{rb.sid = rb2.sid\ \land \ rb.bid \neq rb2.bid\ \land \ rb.color = rb2.color} \rho_{rb2}(rb) )$\\
+	$good \gets \pi_{sid} (rb \bowtie_{rb.sid = rb2.sid\ \land \ rb.bid \neq rb2.bid\ \land \ rb.color = rb2.color} (\rho_{rb2}(rb)) )$\\
 	$answer \gets \pi_{sname} (good \bowtie sailors)$
 	\item \DL \\
 	$ rb(S, B, C) \gets reserved(S, B, \anyvar ),\ boats(B, \anyvar , C) $\\
@@ -47,8 +47,9 @@ underlined.\\
 	\item \DL \\
 	$ allred(B) \gets boats(B, \anyvar,\  'red') $\\
 	$ witness(S, B) \gets reserved(S, B, \anyvar),\ allred(B) $ \\
-	$ bad(N) \gets sailors(S, N, \anyvar, \anyvar),\ reserved(S, B, \anyvar), \neg witness(S, B) $ \\
-	$ answer(N) \gets sailors(\anyvar, N, \anyvar, \anyvar), \neg bad(N) $
+	$ bad(S) \gets sailors(S, \anyvar, \anyvar, \anyvar),\ allred(B),\ \neg witness(S, B) $ \\
+	$ good(S) \gets reserved(S, \anyvar, \anyvar),\ \neg bad(S) $ \\
+	$ answer(N) \gets sailors(S, N, \anyvar, \anyvar),\ good(S) $
 	\end{itemize}
 \item Find the name and color of boats which are reserved by all sailors rated above 7.
 	\begin{itemize}
