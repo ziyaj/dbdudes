@@ -30,9 +30,9 @@ underlined.\\
 \item Find the names of sailors who have reserved at least two different boats with the same color.
 	\begin{itemize}
 	\item \RA\\
-	$rb \gets \pi_{sid, bid, color} (reserved \bowtie boats) $\\
-	$good \gets \pi_{sid} (rb \bowtie_{rb.sid = rb2.sid\ \land \ rb.bid \neq rb2.bid\ \land \ rb.color = rb2.color} (\rho_{rb2}(rb)) )$\\
-	$answer \gets \pi_{sname} (good \bowtie sailors)$
+	$rb := \pi_{sid, bid, color} (reserved \bowtie boats) $\\
+	$good := \pi_{sid} (rb \bowtie_{rb.sid = rb2.sid\ \land \ rb.bid \neq rb2.bid\ \land \ rb.color = rb2.color} \rho_{rb2}(rb) )$\\
+	$answer := \pi_{sname} (good \bowtie sailors)$
 	\item \DL \\
 	$ rb(S, B, C) \gets reserved(S, B, \anyvar ),\ boats(B, \anyvar , C) $\\
 	$ good(S) \gets rb(S, B, C),\ rb(S, B', C),\ B \neq B' $\\
@@ -41,9 +41,9 @@ underlined.\\
 \item Find the names of sailors who have reserved all red boats.
 	\begin{itemize}
 	\item \RA \\
-	$ allred \gets \pi_{bid} (\sigma_{color = 'red'} boats)$ \\
-	$ good \gets (\pi_{sid, bid} reserved) \div allred $\\
-	$ answer \gets \pi_{sname}(good \bowtie sailors)$
+	$ allred := \pi_{bid} (\sigma_{color = 'red'} boats)$ \\
+	$ good := (\pi_{sid, bid} reserved) \div allred $\\
+	$ answer := \pi_{sname}(good \bowtie sailors)$
 	\item \DL \\
 	$ allred(B) \gets boats(B, \anyvar,\  'red') $\\
 	$ witness(S, B) \gets reserved(S, B, \anyvar),\ allred(B) $ \\
@@ -54,11 +54,11 @@ underlined.\\
 \item Find the name and color of boats which are reserved by all sailors rated above 7.
 	\begin{itemize}
 	\item \RA \\
-	$ above7 \gets \pi_{sid}(\sigma_{rating > 7} sailors) $ \\
-	$ witness \gets \pi_{sid, bid}(above7 \bowtie reserved) $ \\
-	$ bad \gets \pi_{bid}(above7 \times \pi_{bid}reserved - witness) $ \\
-	$ good \gets \pi_{bid}reserved - bad$ \\
-	$ answer \gets \pi_{bname, color}(good \bowtie boats)$
+	$ above7 := \pi_{sid}(\sigma_{rating > 7} sailors) $ \\
+	$ witness := \pi_{sid, bid}(above7 \bowtie reserved) $ \\
+	$ bad := \pi_{bid}(above7 \times \pi_{bid}reserved - witness) $ \\
+	$ good := \pi_{bid}reserved - bad$ \\
+	$ answer := \pi_{bname, color}(good \bowtie boats)$
 	\item \DL \\
 	$ above7(S) \gets sailors(S, \anyvar, R, \anyvar), \ R > 7$ \\
 	$ witness(S, B) \gets reserved(S, B, \anyvar),\ above7(S) $ \\
@@ -69,8 +69,8 @@ underlined.\\
 \item Find the name(s) of sailors with the lowest rating.
 	\begin{itemize}
 	\item \RA \\
-	$ notlowest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.rating > sailors2.rating} (\rho_{sailors2} (sailors))) $ \\
-	$ lowest \gets \pi_{sname}((\pi_{sid}sailors - notlowest) \bowtie sailors) $
+	$ notlowest := \pi_{sailors.sid}(sailors \bowtie_{sailors.rating > sailors2.rating} \rho_{sailors2} (sailors)) $ \\
+	$ lowest := \pi_{sname}((\pi_{sid}sailors - notlowest) \bowtie sailors) $
 	\item \DL \\
 	$ notlowest(S) \gets sailors(S, \anyvar, R, \anyvar), \ sailors(S', \anyvar, R', \anyvar), R > R' $ \\
 	$ lowest(N) \gets sailors(S, N, \anyvar, \anyvar), \ \neg notlowest(S) $
@@ -78,8 +78,8 @@ underlined.\\
 \item Find the name and rating of the oldest sailor(s).
 	\begin{itemize}
 	\item \RA \\
-	$ notoldest \gets \pi_{sailors.sid}(sailors \bowtie_{sailors.age < sailors2.age} (\rho_{sailors2}(sailors)))$ \\
-	$ oldest \gets \pi_{sname, rating}((\pi_{sid} sailors - notoldest) \bowtie sailors) $
+	$ notoldest := \pi_{sailors.sid}(sailors \bowtie_{sailors.age < sailors2.age} \rho_{sailors2}(sailors))$ \\
+	$ oldest := \pi_{sname, rating}((\pi_{sid} sailors - notoldest) \bowtie sailors) $
 	\item \DL \\
 	$ notoldest(S) \gets sailors(S, \anyvar, \anyvar, A),\ sailors(S', \anyvar, \anyvar, A'),\ A < A' $ \\
 	$ oldest(N, R) \gets sailors(S, N, R, \anyvar),\ \neg notoldest(S) $
@@ -92,11 +92,11 @@ We cannot express this query using RA's division operator. Because the denominat
 \\
 \begin{itemize}
 	\item \RA \\
-	$ map \gets \rho_{sailors2.sid \to sid2}(sailors \bowtie_{rating > sailors2.rating} (\rho_{sailors2} (sailors))) $ \\
-	$ allcombo \gets \pi_{sid, sid2, bid}(map \bowtie_{map.sid2 = reserved.sid} reserved) $ \\
-	$ witness \gets \pi_{sid, sid2, bid}(map \bowtie_{map.sid = reserved.sid} reserved)$ \\
-	$ bad \gets \pi_{sid} (allcombo - witness) $ \\
-	$ good \gets \pi_{sname}((\pi_{sid} reserved - bad) \bowtie sailors) $ 
+	$ map := \rho_{sailors2.sid \to sid2}(sailors \bowtie_{rating > sailors2.rating} \rho_{sailors2} (sailors)) $ \\
+	$ allcombo := \pi_{sid, sid2, bid}(map \bowtie_{map.sid2 = reserved.sid} reserved) $ \\
+	$ witness := \pi_{sid, sid2, bid}(map \bowtie_{map.sid = reserved.sid} reserved)$ \\
+	$ bad := \pi_{sid} (allcombo - witness) $ \\
+	$ good := \pi_{sname}((\pi_{sid} reserved - bad) \bowtie sailors) $ 
 	\item \DL \\
 	$ witness(S, B) \gets reserved(S, B, \anyvar) $ \\
 	$ bad(S) \gets sailors(S, \anyvar, R, \anyvar),\ sailors(S', \anyvar, R', \anyvar),\ R > R',\ \neg witness(S, B),\  witness(S', B') $ \\
