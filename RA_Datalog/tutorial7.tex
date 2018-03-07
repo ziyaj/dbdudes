@@ -84,7 +84,7 @@ underlined.\\
 	$ notoldest(S) \gets sailors(S, \anyvar, \anyvar, A),\ sailors(S', \anyvar, \anyvar, A'),\ A < A' $ \\
 	$ oldest(N, R) \gets sailors(S, N, R, \anyvar),\ \neg notoldest(S) $
 	\end{itemize}
-\item Find the names of sailors who have reserved every boat reserved by those with a lower rating. E.g., if Bob is a sailor rated at 6, Pete and Rick being sailors rated below 6, then Bob must have reserved every boat reserved by Pete as well as those reserved by Rick. Can you express this query using RA?s division operator? Explain your answer.\\
+\item Find the names of sailors who have reserved every boat reserved by those with a lower rating. E.g., if Bob is a sailor rated at 6, Pete and Rick being sailors rated below 6, then Bob must have reserved every boat reserved by Pete as well as those reserved by Rick. Can you express this query using RA's division operator? Explain your answer.\\
 \\
 \textbf{Answer}\\
 \\
@@ -93,10 +93,18 @@ We cannot express this query using RA's division operator. Because the denominat
 \begin{itemize}
 	\item \RA \\
 	$ map \gets \rho_{sailors2.sid \to sid2}(sailors \bowtie_{rating > sailors2.rating} \rho_{sailors2} (sailors)) $ \\
-	$ allcombo \gets \pi_{sid, sid2, bid}(map \bowtie_{map.sid2 = reserved.sid} reserved) $ \\
-	$ witness \gets \pi_{sid, sid2, bid}(map \bowtie_{map.sid = reserved.sid} reserved)$ \\
+	$ allcombo \gets \pi_{sid, bid}(map \bowtie_{map.sid2 = reserved.sid} reserved) $ \\
+	$ witness \gets \pi_{sid, bid}(map \bowtie_{map.sid = reserved.sid} reserved)$ \\
 	$ bad \gets \pi_{sid} (allcombo - witness) $ \\
-	$ good \gets \pi_{sname}((\pi_{sid} reserved - bad) \bowtie sailors) $ 
+	$ good \gets \pi_{sname}((\pi_{sid} reserved - bad) \bowtie sailors) $ \\
+	
+	note:
+	\begin{itemize}
+		\item we don't have to explicitly say $sailos.sid \neq sailors2.sid$ because we take a strict "greater-than" in rating; for the same sailor the rating is the same so he or she won't be selected
+		\item \textit{map} are all the (sid, sid2) pairs where the first sailors rating is greater than the second's
+		\item \textit{allcombo} are, e.g., all the boats that Pete and Rick have reserved, i.e., Bob should reserve
+		\item \textit{witness} are, e.g., the boats that Bob has reserved
+	\end{itemize}
 	\item \DL \\
 	$ witness(S, B) \gets reserved(S, B, \anyvar) $ \\
 	$ bad(S) \gets sailors(S, \anyvar, R, \anyvar),\ sailors(S', \anyvar, R', \anyvar),\ R > R',\ \neg witness(S, B),\  witness(S', B') $ \\
