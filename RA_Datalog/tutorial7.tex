@@ -55,9 +55,7 @@ underlined.\\
 	\begin{itemize}
 	\item \RA \\
 	$ above7 \gets \pi_{sid}(\sigma_{rating > 7} sailors) $ \\
-	$ witness \gets \pi_{sid, bid}(above7 \bowtie reserved) $ \\
-	$ bad \gets \pi_{bid}(above7 \times \pi_{bid}reserved - witness) $ \\
-	$ good \gets \pi_{bid}reserved - bad$ \\
+	$ good \gets \pi_{bid,sid}reserved \div above7$ \\
 	$ answer \gets \pi_{bname, color}(good \bowtie boats)$
 	\item \DL \\
 	$ above7(S) \gets sailors(S, \anyvar, R, \anyvar), \ R > 7$ \\
@@ -100,7 +98,7 @@ We cannot express this query using RA's division operator. Because the denominat
 	
 	note:
 	\begin{itemize}
-		\item we don't have to explicitly say $sailos.sid \neq sailors2.sid$ because we take a strict "greater-than" in rating; for the same sailor the rating is the same so he or she won't be selected
+		\item we don't have to explicitly say $sailors.sid \neq sailors2.sid$ because we take a strict "greater-than" in rating; for the same sailor the rating is the same so he or she won't be selected
 		\item \textit{map} are all the (sid, sid2) pairs where the first sailors rating is greater than the second's
 		\item \textit{allcombo} are, e.g., all the boats that Pete and Rick have reserved, i.e., Bob should reserve
 		\item \textit{witness} are, e.g., the boats that Bob has reserved
