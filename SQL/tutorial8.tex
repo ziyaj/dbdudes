@@ -1,0 +1,61 @@
+\documentclass{article}
+\title{Tutorial 08: An Introduction to SQL Using Oracle's SQL*PLUS}
+\author{
+	Jin, Ziyang\\
+	\texttt{\# 34893140}\\
+	\texttt{f4a0b}
+	\and
+	Kim, Joon Hyung\\
+	\texttt{\# 35183128}\\
+	\texttt{l1m8}
+}
+
+\newcommand{\anyvar}{\underline{\hspace{0.8em}}}
+\newcommand{\RA}{\textbf{RA}}
+\newcommand{\DL}{\textbf{Datalog}}
+
+\begin{document}
+	\maketitle
+
+\noindent Create SQL queries to answer each of the following questions:
+
+\begin{enumerate}
+\item Show all columns and rows in the \texttt{authors} table.\\
+	\texttt{select * from authors;}
+
+\item Display the schema of the \texttt{titles} table.\\
+	\texttt{describe titles}
+	
+\item Display the first and last names of all authors, and make the column headings (labels) at the top ``FirstName" and ``LastName" (with no blanks). Use column aliases for this.\\
+	\texttt{ select AU\_FNAME as FirstName, AU\_LNAME as LastName } \\
+	\texttt{from AUTHORS;}
+	
+\item Which authors live in Walnut Creek? Show all columns of the table in your result.\\
+	\texttt{select *} \\
+	\texttt{from AUTHORS} \\
+	\texttt{where CITY='Walnut Creek';} \\
+	
+\item Determine the orders that are incomplete. In particular, list the \texttt{title\_id} and the number of titles that still have to be shipped before the order is complete. Show only those rows where not as many titles have been shipped as have been ordered. Use the \texttt{salesdetails} table for this.\\
+
+\item Consider the \texttt{editors} table. List all editors (first and last names) who do not have a boss. \\
+
+\item Which editors do \textit{not} have 993-86-0420 as a boss? List the last name of all such editors and their bosses. Hint: This may not be quite as easy as it looks because of presence of NULLs.\\
+
+\item Which business books cost between \$20 and \$30, inclusive? List the title and price of each such book.\\
+
+\item List the last names of all authors who have the letter 'y' or 'Y' in their last name.\\
+
+\item List all titles followed by the name of their publisher. Order them alphabetically by title.\\
+
+\item List the first and last names of all authors of the book called ``Secrets of Silicon Valley". \\
+
+\item List the titles of books that have more than one author. Only list the title once for each book. \\
+
+\item Create an SQL query of your own choice that is substantially different from the queries above. Your query should join 3 tables and explicitly sort the results in a meaningful way (e.g., ascending or descending order by one of the attributes). Your output must display at least 3 rows in the result set. In addition to listing your query, copy-and-paste the answer to your SQL query (i.e., the results) in your handin deliverables.
+
+	
+\end{enumerate}
+
+
+
+\end{document}
