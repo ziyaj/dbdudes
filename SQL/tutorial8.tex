@@ -20,26 +20,48 @@
 \noindent Create SQL queries to answer each of the following questions:
 
 \begin{enumerate}
-\item Show all columns and rows in the \texttt{authors} table.\\
-	\texttt{select * from authors;}
+\item Show all columns and rows in the \texttt{authors} table.
+	\begin{verbatim}
+	SELECT *
+	FROM   authors;
+	\end{verbatim}
 
-\item Display the schema of the \texttt{titles} table.\\
-	\texttt{describe titles}
+\item Display the schema of the \texttt{titles} table.
+	\begin{verbatim}
+	describe titles
+	\end{verbatim}
 	
-\item Display the first and last names of all authors, and make the column headings (labels) at the top ``FirstName" and ``LastName" (with no blanks). Use column aliases for this.\\
-	\texttt{ select AU\_FNAME as FirstName, AU\_LNAME as LastName } \\
-	\texttt{from AUTHORS;}
-	
-\item Which authors live in Walnut Creek? Show all columns of the table in your result.\\
-	\texttt{select *} \\
-	\texttt{from AUTHORS} \\
-	\texttt{where CITY='Walnut Creek';} \\
-	
-\item Determine the orders that are incomplete. In particular, list the \texttt{title\_id} and the number of titles that still have to be shipped before the order is complete. Show only those rows where not as many titles have been shipped as have been ordered. Use the \texttt{salesdetails} table for this.\\
+\item Display the first and last names of all authors, and make the column headings (labels) at the top ``FirstName" and ``LastName" (with no blanks). Use column aliases for this.
+	\begin{verbatim}
+	SELECT au_fname AS "FirstName", au_lnane AS "LastName"
+	FROM   authors;
+	\end{verbatim}
 
-\item Consider the \texttt{editors} table. List all editors (first and last names) who do not have a boss. \\
+\item Which authors live in Walnut Creek? Show all columns of the table in your result.
+	\begin{verbatim}
+	SELECT *
+	FROM   authors
+	WHERE  city=`Walnut Creek';
+	\end{verbatim}
+	
+\item Determine the orders that are incomplete. In particular, list the \texttt{title\_id} and the number of titles that still have to be shipped before the order is complete. Show only those rows where not as many titles have been shipped as have been ordered. Use the \texttt{salesdetails} table for this.
+	\begin{verbatim}
+	SELECT title_id, qty_ordered-qty_shipped
+	FROM   salesdetails
+	WHERE  qty_ordered > qty_shipped;
+	\end{verbatim}
 
-\item Which editors do \textit{not} have 993-86-0420 as a boss? List the last name of all such editors and their bosses. Hint: This may not be quite as easy as it looks because of presence of NULLs.\\
+\item Consider the \texttt{editors} table. List all editors (first and last names) who do not have a boss.
+	\begin{verbatim}
+	SELECT ed_fname, ed_lname
+	FROM   editors
+	WHERE  ed_boss IS NULL;
+	\end{verbatim}
+
+\item Which editors do \textit{not} have 993-86-0420 as a boss? List the last name of all such editors and their bosses. Hint: This may not be quite as easy as it looks because of presence of NULLs.
+	\begin{verbatim}
+	
+	\end{verbatim}
 
 \item Which business books cost between \$20 and \$30, inclusive? List the title and price of each such book.\\
 
