@@ -60,18 +60,51 @@
 
 \item Which editors do \textit{not} have 993-86-0420 as a boss? List the last name of all such editors and their bosses. Hint: This may not be quite as easy as it looks because of presence of NULLs.
 	\begin{verbatim}
-	
+	SELECT ed_lname, ed_boss
+	FROM   editors
+	WHERE  ed_boss IS NULL OR ed_boss <> `993-86-0420';
 	\end{verbatim}
 
-\item Which business books cost between \$20 and \$30, inclusive? List the title and price of each such book.\\
+\item Which business books cost between \$20 and \$30, inclusive? List the title and price of each such book.
+	\begin{verbatim}
+	SELECT title, price
+	FROM   titles
+	WHERE  type=`business' AND price >= 20 AND price <= 30;
+	\end{verbatim}
 
-\item List the last names of all authors who have the letter 'y' or 'Y' in their last name.\\
+\item List the last names of all authors who have the letter 'y' or 'Y' in their last name.
+	\begin{verbatim}
+	SELECT au_lname
+	FROM   authors
+	WHERE  au_lname LIKE `%y%' OR au_lname LIKE `%Y%';
+	\end{verbatim}
 
-\item List all titles followed by the name of their publisher. Order them alphabetically by title.\\
+\item List all titles followed by the name of their publisher. Order them alphabetically by title.
+	\begin{verbatim}
+	SELECT title, pub_name
+	FROM   titles, publishers
+	WHERE  titles.pub_id = publishers.pub_id
+	ORDER BY title;
+	\end{verbatim}
 
-\item List the first and last names of all authors of the book called ``Secrets of Silicon Valley". \\
+\item List the first and last names of all authors of the book called ``Secrets of Silicon Valley".
+	\begin{verbatim}
+	SELECT au_fname, au_lname
+	FROM   authors
+	WHERE  au_id IN (SELECT au_id
+	                 FROM titleauthors, titles
+	                 WHERE title = `Secrets of Silicon Valley' AND
+	                       titleauthors.title_id = titles.title_id);
+	\end{verbatim}
 
-\item List the titles of books that have more than one author. Only list the title once for each book. \\
+\item List the titles of books that have more than one author. Only list the title once for each book.
+	\begin{verbatim}
+	SELECT title
+	FROM   titles
+	WHERE  title_id IN (SELECT A.title_id
+	                    FROM titleauthors A, titleauthors B
+	                    WHERE A.title_id = B.title_id AND A.au_id <> B.au_id);
+	\end{verbatim}
 
 \item Create an SQL query of your own choice that is substantially different from the queries above. Your query should join 3 tables and explicitly sort the results in a meaningful way (e.g., ascending or descending order by one of the attributes). Your output must display at least 3 rows in the result set. In addition to listing your query, copy-and-paste the answer to your SQL query (i.e., the results) in your handin deliverables.
 
