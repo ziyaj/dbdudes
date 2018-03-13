@@ -69,14 +69,14 @@
 	\begin{verbatim}
 	SELECT title, price
 	FROM   titles
-	WHERE  type=`business' AND price >= 20 AND price <= 30;
+	WHERE  type=`business' AND price BETWEEN 20 AND 30;
 	\end{verbatim}
 
 \item List the last names of all authors who have the letter 'y' or 'Y' in their last name.
 	\begin{verbatim}
 	SELECT au_lname
 	FROM   authors
-	WHERE  au_lname LIKE `%y%' OR au_lname LIKE `%Y%';
+	WHERE  LOWER(au_lname) LIKE `%y%';
 	\end{verbatim}
 
 \item List all titles followed by the name of their publisher. Order them alphabetically by title.
@@ -92,22 +92,52 @@
 	SELECT au_fname, au_lname
 	FROM   authors
 	WHERE  au_id IN (SELECT au_id
-	                 FROM titleauthors, titles
-	                 WHERE title = `Secrets of Silicon Valley' AND
-	                       titleauthors.title_id = titles.title_id);
+	                 FROM titleauthors A, titles T
+	                 WHERE T.title = `Secrets of Silicon Valley' 
+	                       AND A.title_id = T.title_id);
 	\end{verbatim}
 
 \item List the titles of books that have more than one author. Only list the title once for each book.
 	\begin{verbatim}
-	SELECT title
+	SELECT DISTINCT title
 	FROM   titles
 	WHERE  title_id IN (SELECT A.title_id
 	                    FROM titleauthors A, titleauthors B
-	                    WHERE A.title_id = B.title_id AND A.au_id <> B.au_id);
+	                    WHERE A.title_id = B.title_id 
+	                          AND A.au_id <> B.au_id);
 	\end{verbatim}
 
-\item Create an SQL query of your own choice that is substantially different from the queries above. Your query should join 3 tables and explicitly sort the results in a meaningful way (e.g., ascending or descending order by one of the attributes). Your output must display at least 3 rows in the result set. In addition to listing your query, copy-and-paste the answer to your SQL query (i.e., the results) in your handin deliverables.
+\item Create an SQL query of your own choice that is substantially different from the queries above. Your query should join 3 tables and explicitly sort the results in a meaningful way (e.g., ascending or descending order by one of the attributes). Your output must display at least 3 rows in the result set. In addition to listing your query, copy-and-paste the answer to your SQL query (i.e., the results) in your handin deliverables.\\
+	\\
+	\textbf{Intent} Select title and type of books that are edited by California (CA) editors. Sort in ascending order by type.
+	\begin{verbatim}
+	SELECT title, type
+	FROM   titles
+	WHERE  title_id IN (SELECT title_id
+	                    FROM   titleditors T, editors E
+	                    WHERE  E.state = `CA' AND T.ed_id = E.ed_id)
+	ORDER BY type;
+	\end{verbatim}
+	\textbf{Result}
+	\begin{verbatim}
+	TITLE                                                TYPE
+---------------------------------------------------- --------------------
+The Busy Executive's Database Guide                  business
+   
+Cooking with Computers: Surreptitious Balance Sheets business
 
+You Can Combat Computer Stress!                      business
+
+Straight Talk About Computers                        business
+
+But Is It User Friendly?                             popular_comp
+
+Secrets of Silicon Valley                            popular_comp
+
+
+6 rows selected.
+
+	\end{verbatim}
 	
 \end{enumerate}
 
