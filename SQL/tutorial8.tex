@@ -46,7 +46,7 @@
 	
 \item Determine the orders that are incomplete. In particular, list the \texttt{title\_id} and the number of titles that still have to be shipped before the order is complete. Show only those rows where not as many titles have been shipped as have been ordered. Use the \texttt{salesdetails} table for this.
 	\begin{verbatim}
-	SELECT title_id, qty_ordered-qty_shipped
+	SELECT title_id, qty_ordered - qty_shipped
 	FROM   salesdetails
 	WHERE  qty_ordered > qty_shipped;
 	\end{verbatim}
@@ -63,6 +63,16 @@
 	SELECT ed_lname, ed_boss
 	FROM   editors
 	WHERE  ed_boss IS NULL OR ed_boss <> `993-86-0420';
+	\end{verbatim}
+	(Optional) List last name of of editors and last name of their bosses:
+	\begin{verbatim}
+	SELECT E.ed_lname, B.ed_lname
+	FROM editors E, editors B
+	WHERE E.ed_boss <> '993-86-0420' AND E.ed_boss = B.ed_id
+	UNION
+	SELECT ed_lname, NULL
+	FROM editors
+	WHERE ed_boss IS NULL
 	\end{verbatim}
 
 \item Which business books cost between \$20 and \$30, inclusive? List the title and price of each such book.
@@ -81,17 +91,17 @@
 
 \item List all titles followed by the name of their publisher. Order them alphabetically by title.
 	\begin{verbatim}
-	SELECT title, pub_name
-	FROM   titles, publishers
-	WHERE  titles.pub_id = publishers.pub_id
-	ORDER BY title;
+	SELECT T.title, P.pub_name
+	FROM   titles T, publishers P
+	WHERE  T.pub_id = P.pub_id
+	ORDER BY T.title;
 	\end{verbatim}
 
 \item List the first and last names of all authors of the book called ``Secrets of Silicon Valley".
 	\begin{verbatim}
 	SELECT au_fname, au_lname
 	FROM   authors
-	WHERE  au_id IN (SELECT au_id
+	WHERE  au_id IN (SELECT A.au_id
 	                 FROM titleauthors A, titles T
 	                 WHERE T.title = `Secrets of Silicon Valley' 
 	                       AND A.title_id = T.title_id);
@@ -111,24 +121,27 @@
 	\\
 	\textbf{Intent} Select title and type of books that are edited by California (CA) editors. Sort in ascending order by type.
 	\begin{verbatim}
-	SELECT title, type
-	FROM   titles
-	WHERE  title_id IN (SELECT title_id
-	                    FROM   titleditors T, editors E
-	                    WHERE  E.state = `CA' AND T.ed_id = E.ed_id)
-	ORDER BY type;
+	SELECT DISTINCT T.title, T.type
+	FROM   titles T, titleditors TE, editors E
+	WHERE  T.title_id = TE.title_id 
+		       AND TE.ed_id = E.ed_id
+		       AND  E.state = `CA' 
+	ORDER BY T.type;
 	\end{verbatim}
 	\textbf{Result}
 	\begin{verbatim}
 	TITLE                                                TYPE
 ---------------------------------------------------- --------------------
-The Busy Executive's Database Guide                  business
-   
 Cooking with Computers: Surreptitious Balance Sheets business
 
-You Can Combat Computer Stress!                      business
-
 Straight Talk About Computers                        business
+
+The Busy Executive's Database Guide                  business
+
+	TITLE                                                TYPE
+---------------------------------------------------- --------------------
+
+You Can Combat Computer Stress!                      business
 
 But Is It User Friendly?                             popular_comp
 
