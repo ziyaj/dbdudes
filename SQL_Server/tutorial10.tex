@@ -60,7 +60,7 @@ where qty = (select max(p.qty)
 \noindent before: \\
 
 
-\noindent after:
+\noindent after: \\
 
 
 \section{Deliverable 6}
@@ -69,15 +69,21 @@ delete from item
 where iid = 180;
 \end{verbatim}
 
-Because the item with iid 180 is referenced from purchase table. If we delete 
+Because the item with iid 180 is referenced by some records in purchase table. If we delete item 180, then the purchase record, which has iid as a foreign key referencing item 180, cannot find the item in the item table, which violates referential integrity. So item 180 cannot be deleted until all the purchase records that reference item 180 are deleted.
 
 \section{Deliverable 7}
+
+capture before recovery: \\
 
 
 \section{Deliverable 8}
 
+capture during recovery: \\
+
 
 \section{Deliverable 9}
+
+capture after recovery: \\
 
 
 
