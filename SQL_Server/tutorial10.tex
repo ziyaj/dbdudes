@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\title{Tutorial 10: An Introduction to SQL Server}
+\author{
+	Jin, Ziyang\\
+	\texttt{\# 34893140}\\
+	\texttt{f4a0b}
+	\and
+	Kim, Joon Hyung\\
+	\texttt{\# 35183128}\\
+	\texttt{l1m8}
+}
+
+\begin{document}
+	\maketitle
+
+\section{Deliverable 1}
+
+\begin{verbatim}
+Table name:   dbo.purchase
+Attributes:   pid, cid, iid, day, qty
+Primary key:  pid
+Foreign Keys: cid REFERENCES dbo.cutomer, iid REFERENCES dbo.item
+\end{verbatim}
+
+\section{Deliverable 2}
+
+Theoretically, the first query, which uses the inner join syntax, will keep only 1 copy of the joining attributes. While the second query, which just specifies the join condition, will keep both copies of the joining attributes. However, as a result of SQL Server, these 2 queries both keep only 1 copy of the joining attributes;
+
+\section{Deliverable 3}
+
+\begin{verbatim}
+select c.cname
+from   customer c, purchase p, item i
+where  p.cid = c.cid and i.iid = p.iid 
+       and i.iname like '%Chococlate Frog%';
+\end{verbatim}
+
+\section{Deliverable 4}
+\begin{verbatim}
+update purchase
+set    qty = 5
+where  pid in (select p.pid
+               from customer c, purchase p, item i
+               where c.cid = p.cid and p.iid = i.iid
+                     and c.cname like 'S. Uper'
+                     and i.iname like '%Chocolate Frog%');
+\end{verbatim}
+
+\section{Deliverable 5}
+
+\begin{verbatim}
+delete from purchase
+where qty = (select max(p.qty)
+             from   purchase p
+             where  p.iid = 180);
+\end{verbatim}
+
+\noindent before: \\
+
+
+\noindent after:
+
+
+\section{Deliverable 6}
+\begin{verbatim}
+delete from item
+where iid = 180;
+\end{verbatim}
+
+Because the item with iid 180 is referenced from purchase table. If we delete 
+
+\section{Deliverable 7}
+
+
+\section{Deliverable 8}
+
+
+\section{Deliverable 9}
+
+
+
+
+\end{document}
